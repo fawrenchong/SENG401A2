@@ -1,4 +1,7 @@
 from discussion import Discussion
+from statistics import mean
+
+BOT_NAME = 'group_18664_bot_ed7a929f2e2e383a315369833ef98d6b'
 
 class MergeRequest:
     def __init__(self, gitlab_obj):
@@ -19,12 +22,18 @@ class MergeRequest:
         notes = []
         for discussion in self.discussions:
             for note in discussion.notes:
-                notes.append(note)
+                if note.author != BOT_NAME:
+                    notes.append(note)
         return notes
+
+def get_average_discussions(merge_requests):
+    """This does not count the comment automatically made by SonarQube"""
+    note_counts = [len(merge_request.get_all_notes()) for merge_request in merge_requests]
+    return mean(note_counts)
 
 def get_merge_requests(project):
     project_merge_requests = project.mergerequests.list(get_all=False)
     merge_requests = [MergeRequest(project_merge_request) for project_merge_request in project_merge_requests]
 
     mr = merge_requests[0]
-    print(mr.author)
+    print(get_average_discussions(merge_requests))

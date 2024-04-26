@@ -1,6 +1,7 @@
 from discussion import Discussion
 from statistics import mean
 from check_item import CheckItem 
+import re
 
 BOT_NAME = 'group_18664_bot_ed7a929f2e2e383a315369833ef98d6b'
 
@@ -34,7 +35,7 @@ class MergeRequest:
             return []
         else:
             checklist_string = self.description.split(review_form_string)[-1].strip()
-            checklist_items = checklist_string.split('\n- ')
+            checklist_items = checklist_string.split('\n{} '.format(checklist_string[0]))
             checklist_items[0] = checklist_items[0][2:]
             return [CheckItem(checklist_item) for checklist_item in checklist_items]
 
@@ -47,7 +48,15 @@ def get_merge_requests(project):
     project_merge_requests = project.mergerequests.list(get_all=False)
     merge_requests = [MergeRequest(project_merge_request) for project_merge_request in project_merge_requests]
 
-    mr = merge_requests[0]
-    for check_item in mr.checklist:
-        print(check_item.is_marked, check_item.description)
+    review_forms = {}
+
+    for merge_request in merge_requests:
+        check_items = tuple([check_item.description for check_item in merge_request.checklist])
+        if check_items not in review_forms:
+            review_forms[check_items] = [merge_request]
+        else:
+            review_forms[check_items].append(merge_request)
+
+    for review_form in review_forms:
+        print(len(review_form), len(review_forms[review_form]))
     

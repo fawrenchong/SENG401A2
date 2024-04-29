@@ -76,10 +76,12 @@ def get_data(project):
         for item in form:
             print(item)
 
+    i = 1
     for merge_request in merge_requests:
         checked = merge_request.number_checked()
         if len(merge_request.checklist) > 0:
             percentage = checked / len(merge_request.checklist) * 100
         else:
             percentage = None
-        print('Items checked: {}/{} - {}%'.format(checked, len(merge_request.checklist), percentage))
+        print('{} - Items checked: {}/{} - {}%'.format(i, checked, len(merge_request.checklist), percentage))
+        i += 1

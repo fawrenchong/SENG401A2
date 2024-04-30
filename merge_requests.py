@@ -75,14 +75,7 @@ def write_results(name, results, fields):
         writer.writeheader()
         writer.writerows(results)
 
-def get_data(project):
-    merge_requests = get_merge_requests(project)
-    review_forms = get_review_forms(merge_requests)
-
-    for form in review_forms:
-        for item in form:
-            print(item)
-
+def get_review_coverage(merge_requests):
     i = 1
     merge_request_forms = 0
     total_percentage = 0
@@ -103,6 +96,15 @@ def get_data(project):
     
     fields = [key for key in items_checked[0]]
     write_results('review_coverage', items_checked, fields)
-
     average_checked = total_percentage/merge_request_forms
     print('Average percentage checked: {}'.format(average_checked))
+
+def get_data(project):
+    merge_requests = get_merge_requests(project)
+    review_forms = get_review_forms(merge_requests)
+
+    for form in review_forms:
+        for item in form:
+            print(item)
+
+    get_review_coverage(merge_requests)

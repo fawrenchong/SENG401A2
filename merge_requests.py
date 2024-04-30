@@ -1,6 +1,7 @@
 from discussion import Discussion
 from statistics import mean
 from check_item import CheckItem 
+import csv
 
 BOT_NAME = 'group_18664_bot_ed7a929f2e2e383a315369833ef98d6b'
 
@@ -68,6 +69,12 @@ def get_review_forms(merge_requests):
 
     return review_forms
 
+def write_results(name, results, fields):
+    with open('{}.csv'.format(name), 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(results)
+
 def get_data(project):
     merge_requests = get_merge_requests(project)
     review_forms = get_review_forms(merge_requests)
@@ -77,11 +84,25 @@ def get_data(project):
             print(item)
 
     i = 1
+    merge_request_forms = 0
+    total_percentage = 0
+
+    items_checked = []
     for merge_request in merge_requests:
         checked = merge_request.number_checked()
         if len(merge_request.checklist) > 0:
             percentage = checked / len(merge_request.checklist) * 100
+            merge_request_forms += 1
+            total_percentage += percentage
         else:
             percentage = None
         print('{} - Items checked: {}/{} - {}%'.format(i, checked, len(merge_request.checklist), percentage))
+        row = {'Items Checked': checked, 'Total Checks': len(merge_request.checklist), 'Percentage Coverage': percentage}
+        items_checked.append(row)
         i += 1
+    
+    fields = [key for key in items_checked[0]]
+    write_results('review_coverage', items_checked, fields)
+
+    average_checked = total_percentage/merge_request_forms
+    print('Average percentage checked: {}'.format(average_checked))

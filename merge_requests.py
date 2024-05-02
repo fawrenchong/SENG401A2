@@ -129,6 +129,25 @@ def plot_discussion_density(merge_requests):
     plt.plot(dates, num_notes)
     plt.show()
 
+def plot_discussion_distribution(merge_requests):
+    """TODO anonymise author names"""
+    author_notes = {}
+    for merge_request in merge_requests:
+        notes = merge_request.get_all_notes()
+        for note in notes:
+            author = note.author
+            if author not in author_notes:
+                author_notes[author] = 0
+            else:
+                author_notes[author] += 1
+    authors = author_notes.keys()
+    num_notes = author_notes.values()
+    plt.bar(authors, num_notes)
+    plt.xlabel('Authors')
+    plt.ylabel('Number of Notes')
+    plt.title('Number of Notes Per User')
+    plt.show()
+
 def get_data(project):
     """
     - TODO density of review comments over time
@@ -137,11 +156,12 @@ def get_data(project):
     merge_requests = get_merge_requests(project)
     review_forms = get_review_forms(merge_requests)
 
-    # for form in review_forms:
-    #     for item in form:
-    #         print(item)
-    #     print('==========')
+    for form in review_forms:
+        for item in form:
+            print(item)
+        print('==========')
 
-    # get_review_coverage(merge_requests)
-    # record_notes(merge_requests)
+    get_review_coverage(merge_requests)
+    record_notes(merge_requests)
     plot_discussion_density(merge_requests)
+    plot_discussion_distribution(merge_requests)

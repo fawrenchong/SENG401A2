@@ -21,11 +21,12 @@ class MergeRequest:
         return sum(len(discussion.notes) for discussion in self.discussions)
     
     def get_all_notes(self):
-        """Returns a list of all the notes in every discussion"""
+        """Returns a list of all the notes in every discussion
+        gets only the notes that are resolvable"""
         notes = []
         for discussion in self.discussions:
             for note in discussion.notes:
-                if note.author != BOT_NAME:
+                if note.author != BOT_NAME and note.resolvable:
                     notes.append(note)
         return notes
 
@@ -99,12 +100,24 @@ def get_review_coverage(merge_requests):
     average_checked = total_percentage/merge_request_forms
     print('Average percentage checked: {}'.format(average_checked))
 
+def record_notes(merge_requests):
+    f = open('review_notes.txt', 'w')
+    for merge_request in merge_requests:
+        notes = merge_request.get_all_notes()
+        for note in notes:
+            lines = ['-----------------------------\n{}\n'.format(note.author), '{}\n'.format(note.created_at), '{}\n'.format(note.body), '-----------------------------\n']
+            f.writelines(lines)
+    f.close()
+
 def get_data(project):
     merge_requests = get_merge_requests(project)
     review_forms = get_review_forms(merge_requests)
 
-    for form in review_forms:
-        for item in form:
-            print(item)
+    # for form in review_forms:
+    #     for item in form:
+    #         print(item)
+    #     print('==========')
 
-    get_review_coverage(merge_requests)
+    # get_review_coverage(merge_requests)
+
+    record_notes(merge_requests)

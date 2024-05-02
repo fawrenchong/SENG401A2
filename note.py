@@ -5,3 +5,4 @@ class Note:
         self.body = dict_obj['body']
         self.author = dict_obj['author']['username']
         self.resolvable = dict_obj['resolvable']
+        self.created_at = dict_obj['created_at']

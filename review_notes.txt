@@ -1,0 +1,2666 @@
+-----------------------------
+edi28
+2023-09-28T14:25:49.137+13:00
+According to sonarqube you are missing one of the isPresent checks on an optional so you might want to look over that. Also I can edit my prediction after the calculation is made which isn't great. I know this isn't your fault but I think it would be good to fix it in this merge seeing as it's related.
+-----------------------------
+-----------------------------
+edi28
+2023-09-28T20:26:37.293+13:00
+Also your unit tests are failing :disappointed:
+-----------------------------
+-----------------------------
+jfa93
+2023-09-27T12:43:39.209+13:00
+Can you please specify the suggested initial layer "the final"
+-----------------------------
+-----------------------------
+eca66
+2023-09-26T13:38:48.374+13:00
+for the sake of making this the same format as getting the pool prediction points, I would remove the try catch and pass in the list of child activities, the prediction, and the user, and then have preconditions on all of them not being null, as well as prediction.getKnockoutPrediction() not being null so that all this method is doing is the calculation. Can also put a precondition on that says all child activities need to have results.
+-----------------------------
+-----------------------------
+eca66
+2023-09-26T13:43:23.156+13:00
+the issue here is that this only checks that the user correctly predicted home or away, but if their prediction says that a game will be france (home) vs. germany (away) and they say home won, but the game actually ended up nz (home) vs. australia (away) and nz win, then they haven't really predicted this correctly
+-----------------------------
+-----------------------------
+eca66
+2023-09-26T09:58:22.649+13:00
+missing tests for this method, also missing javadoc
+-----------------------------
+-----------------------------
+eca66
+2023-09-26T11:02:45.360+13:00
+I'm pretty sure that nothing else is going on the pickems dashboard, so maybe the card saying how many predictions shouldn't take up so much space
+
+![image](/uploads/c84ee751d5790603e03bb51e1b86a5b2/image.png)
+-----------------------------
+-----------------------------
+cda90
+2023-09-26T11:26:21.745+13:00
+Fixed
+-----------------------------
+-----------------------------
+mrw106
+2023-09-25T16:56:43.668+13:00
+Does not currently check is the competition has a pickems. Would potentially be a good thing to add.
+-----------------------------
+-----------------------------
+ebr81
+2023-09-25T23:04:29.769+13:00
+unresolved
+-----------------------------
+-----------------------------
+mrw106
+2023-09-25T16:56:43.909+13:00
+It may be a good idea to have the function only randomise Matches without outcomes so as to not overwrite seeded data.
+-----------------------------
+-----------------------------
+eca66
+2023-09-26T12:30:41.590+13:00
+This needs to call tabActivityService.updateWinner on each activity, and then at the end it needs to call pickemService.orderPools to finalise the result
+-----------------------------
+-----------------------------
+eca66
+2023-09-26T12:35:48.111+13:00
+is this not just canEdit but rephrased a bit?
+-----------------------------
+-----------------------------
+ebr81
+2023-09-26T13:49:28.247+13:00
+somewhat - canEdit checks for time, this does not
+-----------------------------
+-----------------------------
+eca66
+2023-09-23T12:21:54.465+12:00
+@Test
+-----------------------------
+-----------------------------
+cda90
+2023-09-22T14:42:51.161+12:00
+Endpoint named "blah". Not very descriptive :laughing:
+-----------------------------
+-----------------------------
+ebr81
+2023-09-22T14:55:28.501+12:00
+fixed :laughing:
+-----------------------------
+-----------------------------
+ebr81
+2023-09-21T13:18:37.631+12:00
+needs javadoc
+-----------------------------
+-----------------------------
+cda90
+2023-09-22T15:18:51.243+12:00
+These regex expressions are very complicated. Is there anyway to simplify? Complicated regex can cause issues down the line with maintainabiliy
+-----------------------------
+-----------------------------
+cda90
+2023-09-22T15:20:30.165+12:00
+SonarQube has a couple issues with the code, we will want to address them before merging
+-----------------------------
+-----------------------------
+pwh54
+2023-09-20T13:42:01.384+12:00
+The title "Details" Is somewhat undescriptive, could it be changed to "Your Details"?. Could you possibly add a subtitle along the lines of: "Enter your details to log into a temporary account. You will not be able to log into this account again."?
+-----------------------------
+-----------------------------
+eca66
+2023-09-20T14:51:57.294+12:00
+![image](/uploads/9b3d6301801462890b86c436a8b75031/image.png)
+-----------------------------
+-----------------------------
+pwh54
+2023-09-20T13:42:01.551+12:00
+Should be /fakeUser/create
+-----------------------------
+-----------------------------
+pwh54
+2023-09-20T13:42:01.619+12:00
+Please add an error telling the user they need to log out before they can create a temporary account
+-----------------------------
+-----------------------------
+eca66
+2023-09-19T11:41:15.764+12:00
+Maybe put this in a constructor
+-----------------------------
+-----------------------------
+ebr81
+2023-09-13T13:51:44.766+12:00
+change to http://
+
+localhost doesn't use https
+-----------------------------
+-----------------------------
+edi28
+2023-09-12T12:36:03.108+12:00
+ONLY MERGE AFTER AUTO ASSIGN HAS BEEN MERGED
+-----------------------------
+-----------------------------
+cda90
+2023-09-12T21:21:47.075+12:00
+Sonarqube would like this to be tested. If you dont think it necessary then don't worry
+-----------------------------
+-----------------------------
+edi28
+2023-09-12T21:26:40.756+12:00
+I looked over it when testing it is covered by the change I made in one of the tests idk why it doesn't show that!
+-----------------------------
+-----------------------------
+ebr81
+2023-09-12T20:45:03.861+12:00
+remove commented code
+-----------------------------
+-----------------------------
+ebr81
+2023-09-12T20:45:04.096+12:00
+missing param for pools
+-----------------------------
+-----------------------------
+ebr81
+2023-09-12T20:45:04.276+12:00
+missing param for view model
+-----------------------------
+-----------------------------
+cda90
+2023-09-07T23:49:59.399+12:00
+We would want to be careful sending back a raw error message to the user as it may not make any sense to the average user
+-----------------------------
+-----------------------------
+eca66
+2023-09-08T06:58:03.232+12:00
+This shouldn’t be a raw message, it would always be the error thrown by saving the knockout prediction which is something like “failed to save prediction” or something
+-----------------------------
+-----------------------------
+eca66
+2023-09-08T07:22:34.611+12:00
+Also I just remembered the error notifications aren’t showing to the user for some reason so let me fix that before you merge
+-----------------------------
+-----------------------------
+cda90
+2023-09-12T14:49:02.496+12:00
+We will want to change this to return a 500 server error, as it may be misleading (although most users wouldn't know the difference) as it is most likely a server issue not a request issue
+-----------------------------
+-----------------------------
+pwh54
+2023-09-09T09:59:41.197+12:00
+This code smell has come from previous merges.
+-----------------------------
+-----------------------------
+pwh54
+2023-09-07T13:04:38.849+12:00
+The text contrast on team activity stats (located at /profile/userId) does not fit the required contrast. If you log in as cypressDefault and go to /profile/1, then click statistics (top of the page), you can see the below example.
+
+![image.png](/uploads/c5bd6305f682eb879f425382d8ed141b/image.png){width=324 height=145}
+
+Similarly, on the activity Calendar, the prev/next month days' numbers only have a contrast of 2.2 with the white background, and the "And 1 more..." text on day 1 is fairly invisible.
+
+![image.png](/uploads/e71ffb89e4677027a729f4b904193adf/image.png){width=223 height=348}
+
+This one I think is probably okay, but I'd suggest discussing this with the team given a 4.5 contrast rating is very high (I'd probably say the same for the prev/next days on the activity calendar): Technically the green and white in this photo (details section of /team/profile/3) only have a contrast of roughly 2.1.
+
+![image.png](/uploads/8bc5e1bcdaf61b3a9aaf961180e464b9/image.png){width=315 height=229}
+
+The Black/Purple of Competitions on the activity calendar have a similar problem: Contrast = 3.5
+
+![image.png](/uploads/19f0677a4cf78059c45fecfad1a287ad/image.png)
+-----------------------------
+-----------------------------
+mrw106
+2023-09-07T16:38:16.886+12:00
+First two have been changed to use correct text. I didn't even notice the text was there so that's really bad. Good spotting!
+
+Green is in slack now for discussion
+
+purple has been changed to a lighter shade :smile:
+-----------------------------
+-----------------------------
+pwh54
+2023-09-07T13:08:33.701+12:00
+Please remove this from the merge request
+-----------------------------
+-----------------------------
+mrw106
+2023-09-07T16:38:16.732+12:00
+Fixed! Sorry about that.
+-----------------------------
+-----------------------------
+pwh54
+2023-09-07T13:08:34.022+12:00
+Hey Michael! I wrote another comment on the actual merge request. 
+
+Would it be possible to refactor these hard-coded colors to be new bootstrap colours to make their reuse/changing easier? 
+
+Good work with what you've done! See you this weekend!
+-----------------------------
+-----------------------------
+mrw106
+2023-09-07T16:38:17.004+12:00
+changed the hard coded  hex to be overrides :smile: Excluding on the calendar as that's got a lot of work going on on it and i don't want to cause a lot of merge errors later on.
+-----------------------------
+-----------------------------
+mrw106
+2023-09-05T21:23:57.804+12:00
+Nice, took me a second to work out the logic but its a really nice solution for the knockouts not always having the home and opponent team. Good work :smile:
+-----------------------------
+-----------------------------
+mrw106
+2023-09-05T21:23:58.011+12:00
+This function is in at least three places now. Perhaps it should be placed somewhere it can be accessed in each of the three places due to the blatant code duplication. Theoretically the same can be said for most of our drag and drop.
+-----------------------------
+-----------------------------
+jfa93
+2023-09-11T14:43:59.400+12:00
+?
+-----------------------------
+-----------------------------
+mrw106
+2023-09-05T16:41:54.280+12:00
+This was already ~70 lines long and has expanded to 168 lines long. This should be divided into sub functions if for no other reason than to comply with the rule of 30.
+-----------------------------
+-----------------------------
+mrw106
+2023-09-05T16:41:54.506+12:00
+Currently untested. could you throw a test on this to raise coverage? :)
+-----------------------------
+-----------------------------
+mrw106
+2023-09-05T16:41:54.599+12:00
+The renderCalender function is too long. It currently takes up 168 line (though that includes empty line) and should have its functionality broken down into subfunctions. I understand it was already ~70 lines before you wrote anything but even if you just break up the code you've written it will go a long way to stopping this becoming a mega function. :smile:
+-----------------------------
+-----------------------------
+jfa93
+2023-09-05T12:03:15.137+12:00
+Hyallo, Ella, Matt and I looked at this and it looks friggen awesome, we did however notice that the validation system (and dev) expect a list of dates to hit the endpoint and currently the JavaScript sends back a mapping from date to a list of Match indexes. Because you're heading up north today and Matt has helped with this task he said he was happy to make the change to standardize both of these
+-----------------------------
+-----------------------------
+mha585
+2023-09-05T14:33:22.888+12:00
+Fixed this, feel free to re-review whenever your ready :smile:
+-----------------------------
+-----------------------------
+jfa93
+2023-08-28T16:11:04.228+12:00
+Might make a broken test :blush:
+-----------------------------
+-----------------------------
+mrw106
+2023-08-30T21:01:28.203+12:00
+fixed :smile:
+-----------------------------
+-----------------------------
+jfa93
+2023-08-28T16:11:04.418+12:00
+Its slightly bad practice to log and throw at the same time as this leads to duplicate logs, consider putting the log higher up the chain or handling it in this function
+-----------------------------
+-----------------------------
+mrw106
+2023-08-30T21:01:28.425+12:00
+Moved to pickems controller
+-----------------------------
+-----------------------------
+jfa93
+2023-08-28T16:11:04.556+12:00
+Remove pls
+
+Some of the code here could be trimmed down as it was specific to create pickems form etc (genericPost, some of the if statements)
+-----------------------------
+-----------------------------
+mrw106
+2023-08-30T21:01:28.533+12:00
+Cleaned up the unnecessary code. :smile:
+-----------------------------
+-----------------------------
+jfa93
+2023-08-28T16:11:04.721+12:00
+Looks good :thumbsup:  The Pools UI likely needs an ordering visually etc First second third
+
+![image.png](/uploads/abac004f445d034de161f5ab4ac00859/image.png)
+-----------------------------
+-----------------------------
+mrw106
+2023-08-30T21:01:28.607+12:00
+Was an absolute pain to do but has been done. The numbers are in the bx but do not move when dragged which I believe looked best.
+-----------------------------
+-----------------------------
+pwh54
+2023-08-29T11:19:00.526+12:00
+Missing Docstring
+-----------------------------
+-----------------------------
+pwh54
+2023-08-29T11:19:00.679+12:00
+Missing Docstring
+-----------------------------
+-----------------------------
+pwh54
+2023-08-29T11:19:00.816+12:00
+Missing Docstring
+-----------------------------
+-----------------------------
+pwh54
+2023-08-28T16:07:53.693+12:00
+JavaDoc?
+-----------------------------
+-----------------------------
+pwh54
+2023-08-28T16:07:53.891+12:00
+This is quite confusing. Could use a comment explaining what it does. :heart_eyes:
+-----------------------------
+-----------------------------
+pwh54
+2023-08-29T10:55:53.352+12:00
+I think errorHidden is no longer used after your refactor, this should probably be removed to avoid a code smell
+-----------------------------
+-----------------------------
+pwh54
+2023-08-29T10:55:53.461+12:00
+As above
+-----------------------------
+-----------------------------
+pwh54
+2023-08-29T10:55:53.550+12:00
+This is throwing an error and breaking cypress tests. Was unable to test cypress as they would throw an uncaught exception on login.
+-----------------------------
+-----------------------------
+pwh54
+2023-09-12T21:20:46.426+12:00
+This function seems to fail on the flow:
+
+* Go to /activity/1302
+* Add Player Score with details
+  * Player: Test Test
+  * Scored: 29
+  * Time: 3
+
+There is no error message provided to the user but the console shows "ReferenceError: onFail_StatCardGlobal is not defined"
+
+Similar error is "visible" if adding player substitution or adding a fact
+-----------------------------
+-----------------------------
+mha585
+2023-08-29T12:42:34.621+12:00
+I dont know if this fixed the stats not showing. When I log in as email@email and go to the stats for the crusaders (team/1) this is what I see
+![image](/uploads/e6ed60c8ee07a075810af920264f5fb9/image.png)
+-----------------------------
+-----------------------------
+cda90
+2023-08-29T13:04:55.886+12:00
+Fairly sure thats because both the games so far are no results. If you give them results it should work. With that being said I will add something to make it more clear that you have no matches with results.
+-----------------------------
+-----------------------------
+cda90
+2023-08-29T16:15:20.140+12:00
+I was wrong
+-----------------------------
+-----------------------------
+mha585
+2023-08-29T12:42:34.818+12:00
+The navbar is meant to have a little blue bar next to the selected item right?
+This is what I see at the moment in the navbar:
+![image](/uploads/a10108603d39a687a43e100e8f967a02/image.png)
+
+No worries if this is what its meant to look like though :smile:
+-----------------------------
+-----------------------------
+cda90
+2023-08-29T13:05:11.406+12:00
+Odd. Will fix
+-----------------------------
+-----------------------------
+cda90
+2023-08-27T17:50:56.990+12:00
+Sonarqube would like for there to be a isPresent() check here, but is that not what hasRequiredOptionals checks for? If so we can ignore that. :laughing:
+-----------------------------
+-----------------------------
+ebr81
+2023-08-26T17:30:32.159+12:00
+Good job Jack :thumbsup: 
+
+A couple of points I have:
+- The text on the statistics card is padded with `ps-2` - I would remove this class to keep with the existing non-padded convention present in the coach/manager view of the card.
+- The card is half width on mobile, perhaps change the `col-6` to `col-md-6` to keep in line with the width convention used on the activity details card
+  - On a more general note (i.e. not an issue to fix), I'm not a fan of how the card is half width on desktop - it looks a bit odd. Although I'm not sure how it can be improved (UI is not my expertise).
+
+I'll be happy to approve once the card width on mobile is fixed
+-----------------------------
+-----------------------------
+jfa93
+2023-08-27T14:32:54.391+12:00
+First: Done
+
+Second: Changed cols for mobile
+
+I agree with the half-width being a little weird on desktop but full width looked worse (The chronological took up RHS and the winner stat was on the LHS by itself and the white space looked a bit yuck). It could potentially look better if we had something to fill the space, maybe swapped Lineup and stats positions and made the lineup take the whole space. But I think we can save this for another day (After UI update)
+-----------------------------
+-----------------------------
+jfa93
+2023-08-25T16:26:58.527+12:00
+Javadoc
+-----------------------------
+-----------------------------
+jfa93
+2023-08-25T16:28:33.995+12:00
+I think we as a team need to set a definition for a helper compared to a service. I was thinking that a helper was responsible for supporting the UI and the service layer was for data manipulation and generation. Keen to hear the teams thoughts so we can standardize this
+-----------------------------
+-----------------------------
+eca66
+2023-08-25T21:36:08.657+12:00
+Yeah I agree, I just put it here because I didn't want to put it in the pickems service but I'm happy to move it.
+-----------------------------
+-----------------------------
+jfa93
+2023-08-25T16:29:48.033+12:00
+Its a good idea when logging that you only log errors when you handle them, otherwise we might see the same error appear in the logs multiple times
+-----------------------------
+-----------------------------
+jfa93
+2023-08-25T16:31:31.511+12:00
+Non-blocking, Exception is a bit vague, it may be better to replace this with a more specific error
+-----------------------------
+-----------------------------
+eca66
+2023-08-26T12:12:50.757+12:00
+I feel like it wouldn't be that hard to hit this error, so maybe a note on the page for the user so instead of Rounds per pool: it says Rounds per pool (1-2): or something
+-----------------------------
+-----------------------------
+eca66
+2023-08-26T12:16:04.193+12:00
+I noticed that you can create a competition that starts in the past, and with out app having only the pickems functionality for competitions, could it be a good idea to stop competitions from being created in the past altogether? Definitely not a priority
+-----------------------------
+-----------------------------
+eca66
+2023-08-26T12:18:38.986+12:00
+![image](/uploads/a963615af9dc96c554cb819f837004e9/image.png)
+
+This error is being thrown
+-----------------------------
+-----------------------------
+eca66
+2023-08-26T12:49:28.609+12:00
+could this be prepopulated as this is the same as the end date of the competition
+-----------------------------
+-----------------------------
+mrw106
+2023-08-27T17:04:09.491+12:00
+Not blocking: We have view teams above creating a team then creating a competition above viewing a competition. This maybe fine its just slightly inconsistent.
+-----------------------------
+-----------------------------
+cda90
+2023-08-27T17:41:10.360+12:00
+Good catch. I'll give them a quick shuffle
+I'm also fixing a bug that ella found on mobile
+-----------------------------
+-----------------------------
+mrw106
+2023-08-27T17:06:27.420+12:00
+Currently the navbar button appears on mobile but does not function.
+-----------------------------
+-----------------------------
+cda90
+2023-08-27T17:41:10.507+12:00
+Got a fix coming for that :smile:
+-----------------------------
+-----------------------------
+mrw106
+2023-08-27T17:28:06.288+12:00
+The button looks like its missing styling, this might comes under the 'fixing buttons' task though. If so feel free to merge.
+-----------------------------
+-----------------------------
+cda90
+2023-08-27T17:41:10.585+12:00
+which button?
+-----------------------------
+-----------------------------
+mrw106
+2023-08-27T17:47:04.973+12:00
+The button on the top left for mobile devices.
+![image](/uploads/1a076893833c7173fd2a31078da833ed/image.png)
+-----------------------------
+-----------------------------
+mha585
+2023-08-27T14:56:26.809+12:00
+It will be worth adding a task to scrumboard to align the sources of truth on this once validation is merged in. This is because the validation branch treats start of knockouts as strictly needing to be 24 hours ahead of end of pools. This buffers to mid-night and then there needs to be a way for this to also be the same source of truth for CompetitionActivity. I wonder if we in the new task have two methods,
+
+static getStartOfKnockouts(LocalDateTime endOfPools) {}
+public getStartOfKnockouts() {getStartOfKnockouts(this.endOfPools)}
+
+Please reach out to Jack (writing this on Matts acc) if it doesnt make sense.
+-----------------------------
+-----------------------------
+mha585
+2023-08-27T14:56:26.982+12:00
+This calendar wont have activities right? I imagine the drag and drop will use a different method than this and it seems like its not being used anywhere so its probably fine to remove
+-----------------------------
+-----------------------------
+mha585
+2023-08-27T14:56:27.113+12:00
+Should these be removed?
+-----------------------------
+-----------------------------
+mha585
+2023-08-27T14:56:27.232+12:00
+Probably should remove this TODO text
+-----------------------------
+-----------------------------
+pwh54
+2023-08-24T13:22:12.375+12:00
+**Replace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'**
+
+from SonarQube
+-----------------------------
+-----------------------------
+mha585
+2023-08-23T19:50:54.301+12:00
+Sorry chief not sure if this fix works :disappointed:.
+When I am logged in as email@email and I create a friendly for team 1, invite the blues and accept.
+Then if I go to that activity then the players I can choose are always just the members of the blues not members from just the viewing team
+-----------------------------
+-----------------------------
+eca66
+2023-08-24T12:18:29.806+12:00
+it does work
+-----------------------------
+-----------------------------
+mha585
+2023-08-23T19:24:46.552+12:00
+Probably should remove this log?
+-----------------------------
+-----------------------------
+mha585
+2023-08-23T19:25:34.513+12:00
+Im not sure this works, if I go to competition/300 then invite the blues. When I go to the Blues team profile the competition is not on the calendar?
+-----------------------------
+-----------------------------
+eca66
+2023-08-23T19:28:28.675+12:00
+Did you refresh the page? It's a javascript endpoint so the whole page doesn't refresh when you accept the invitation
+-----------------------------
+-----------------------------
+mha585
+2023-08-23T19:30:41.006+12:00
+yes :disappointed: Do you get the same error when you repeat the steps above?
+-----------------------------
+-----------------------------
+eca66
+2023-08-23T19:31:56.958+12:00
+ah okay thats weird, I definitely had it working earlier
+-----------------------------
+-----------------------------
+mha585
+2023-08-23T19:34:43.901+12:00
+It might just be a issue with data.sql? it works if you create a competition but it does not work when using competition/300? If it turns out to be a data.sql issue whenever you look into it then im happy for you to just merge it
+-----------------------------
+-----------------------------
+eca66
+2023-08-23T15:19:15.673+12:00
+![image](/uploads/3e6132bc8e5498e171278258bbb58807/image.png)
+
+Maybe a confusing message when you also can't score 100 points :)
+-----------------------------
+-----------------------------
+jfa93
+2023-08-23T16:01:21.270+12:00
+:((
+-----------------------------
+-----------------------------
+mrw106
+2023-08-23T14:50:25.083+12:00
+remove seeded data - Jack
+-----------------------------
+-----------------------------
+edi28
+2023-08-22T12:13:42.455+12:00
+CHECK NAVBAR IS MERGED BEFORE MERGING!!
+-----------------------------
+-----------------------------
+mrw106
+2023-08-20T21:47:43.397+12:00
+Not sure 'crazy bro' is the best description for an error.
+-----------------------------
+-----------------------------
+ebr81
+2023-08-23T15:07:38.985+12:00
+this code is a refactored from Jack re. addEditor, and I didn't change the exception text :smile:
+-----------------------------
+-----------------------------
+mrw106
+2023-08-20T21:47:43.541+12:00
+Not blocking. Might be worth adding a test that an admin cannot delete another admin.
+-----------------------------
+-----------------------------
+mrw106
+2023-08-20T21:47:43.677+12:00
+'from a competition' likely works better here though again minor.
+-----------------------------
+-----------------------------
+ebr81
+2023-08-18T00:34:59.255+12:00
+SonarQube I am confused, [you're saying everything is fine](https://sonarqube.csse.canterbury.ac.nz/dashboard?branch=U74%2FT261_create_static_second_page&id=team-500)
+-----------------------------
+-----------------------------
+ebr81
+2023-08-18T00:37:14.849+12:00
+Are you going to write Cypress tests (e.g. to verify that the number of pools and slots per pool is what the user entered) later or on the drag and drop task?
+-----------------------------
+-----------------------------
+mha585
+2023-08-18T00:56:52.667+12:00
+My understanding is that we are going to do all that stuff as the final step for this form as part of the validation task. This is beacuase the validation task will include sending the data across the pages so at this stage it does not make sense to write tests for fields that are not yet validated
+-----------------------------
+-----------------------------
+ebr81
+2023-08-18T01:29:31.406+12:00
+ok :thumbsup:
+-----------------------------
+-----------------------------
+cda90
+2023-08-17T15:57:27.675+12:00
+Might be worth adding "cursor: pointer;" in this rule. Otherwise the pointer goes to the text one, making it look like you are meant to be able to edit the text rather than click on it.
+-----------------------------
+-----------------------------
+cda90
+2023-08-17T15:57:27.833+12:00
+The colour of this border could be changed to "transparent" so that if we ever change the colour of the pitch it doesn't look weird.
+-----------------------------
+-----------------------------
+ebr81
+2023-08-17T19:12:11.115+12:00
+not blocking, but a bit of duplicate code can be removed here: make these when conditions the default i.e. move to setDefaultMocks (and keep the test-specific overrides for the missing optionals test above)
+-----------------------------
+-----------------------------
+eca66
+2023-08-17T14:19:21.992+12:00
+Editors can see this card, but not all of them can actually use it unless they are the creator so might be good to hide this unless you're actually the creator
+-----------------------------
+-----------------------------
+jfa93
+2023-08-17T10:03:21.121+12:00
+Javadoc
+-----------------------------
+-----------------------------
+jfa93
+2023-08-17T10:03:21.215+12:00
+Although I agree that the Post controllers will be changing a lot so maybe its slightly okay to not test them in this PR, this one here definitely needs to be tested as I doubt we will be changing it.
+-----------------------------
+-----------------------------
+jfa93
+2023-08-17T10:03:21.337+12:00
+Non-blocking but these endpoints aren't throwing anything. I think it would be more descriptive to instead say "403 thrown when not authorized" etc.
+In a way this serves the purpose of an API spec for us but less hassle than the 365 spec
+-----------------------------
+-----------------------------
+jfa93
+2023-08-17T10:03:21.449+12:00
+cyTag here might cause trouble down the line
+-----------------------------
+-----------------------------
+jfa93
+2023-08-17T10:03:21.551+12:00
+I think it would be good to talk about today how we want to handle errors for this form. We save alot of time by using the toast or a general alert on the form but its definitely wasted potential if we skip.
+-----------------------------
+-----------------------------
+jfa93
+2023-08-17T13:11:59.328+12:00
+Non-blocking but a comment like this is likely more suitable to // instead of being multiline
+-----------------------------
+-----------------------------
+cda90
+2023-08-16T12:33:16.063+12:00
+This will need some unit tests as well as the e2e tests. Looks good though :smile:
+-----------------------------
+-----------------------------
+cda90
+2023-08-16T12:33:16.289+12:00
+The same unit tests will be needed on this code too
+-----------------------------
+-----------------------------
+edi28
+2023-08-16T12:18:30.743+12:00
+Is there a reason for this setter? Seems a bit dangerous
+-----------------------------
+-----------------------------
+jfa93
+2023-08-16T12:23:22.604+12:00
+JPA needs it :(, by setting it as protected it means it cant be touched by the service layer though so it should be okay
+-----------------------------
+-----------------------------
+edi28
+2023-08-16T12:20:10.573+12:00
+A bit confused by how the calculations work with this. i'd suggest double checking it and if you are happy then explain it more in the javadoc
+-----------------------------
+-----------------------------
+jfa93
+2023-08-16T12:27:09.876+12:00
+![image](/uploads/312f51a8db1e7b7541d43d6a611c33bb/image.png)
+
+This is the updated Javadoc, we can go over it more tomorrow if you want :smile_cat:
+-----------------------------
+-----------------------------
+eca66
+2023-08-09T12:58:54.060+12:00
+javadoc :))
+-----------------------------
+-----------------------------
+eca66
+2023-08-09T13:41:20.329+12:00
+sonarqube says isEmpty() is better :smile:
+-----------------------------
+-----------------------------
+ebr81
+2023-08-08T15:50:05.056+12:00
+for my reference: !355
+-----------------------------
+-----------------------------
+mha585
+2023-08-08T23:02:55.940+12:00
+This overflow-scroll div has the unintended effect of clipping the corners of the card-body.
+![image](/uploads/4a22df83f3cb37a0100a819c8b92280f/image.png)
+-----------------------------
+-----------------------------
+edi28
+2023-08-08T12:41:08.851+12:00
+I know you saw I was having similar issues on my task we just ended up adding a hidden input that passed through 0. By no means am I saying you should do that but I just thought I should offer the option :)
+-----------------------------
+-----------------------------
+edi28
+2023-08-08T12:50:23.393+12:00
+Actually who cares yours work and neither of them are good options so i'm just going to resolve this now
+-----------------------------
+-----------------------------
+edi28
+2023-08-08T12:46:18.626+12:00
+I can't see any unit tests checking that passing in null actually works for this. I made a new function called withValidDatesNoTeam on the workingPostEndpoint branch i think it would be safer to use that. Obviously it hasn't been merged in yet so you may have to copy it over.
+-----------------------------
+-----------------------------
+mrw106
+2023-08-08T16:45:39.879+12:00
+It definitely works as otherwise all creation wouldn't (and the function itself specifically handles null team as part of non matched activities) I can wait for tomorrow to merge this if you'd prefer it use the new function but personally it feels like unnecessary code having two functions that both handle dates for activities without teams.
+-----------------------------
+-----------------------------
+edi28
+2023-08-08T16:55:10.069+12:00
+nah if you're sure don't bother changing it!
+-----------------------------
+-----------------------------
+edi28
+2023-08-08T12:49:35.837+12:00
+I feel like we should be checking if they are a federation admin somewhere in here?
+-----------------------------
+-----------------------------
+mrw106
+2023-08-08T16:47:16.301+12:00
+Added, It was way more work than I thought but has been added and tested :smile:
+-----------------------------
+-----------------------------
+mha585
+2023-08-07T16:42:02.903+12:00
+Probably should remove this print statement
+-----------------------------
+-----------------------------
+mha585
+2023-08-07T16:47:18.147+12:00
+If you add extra tests for the lines that are not covered in the activity validator and the competition service then I'm happy for you to merge
+-----------------------------
+-----------------------------
+edi28
+2023-08-08T09:44:44.581+12:00
+I wrote some extra tests if you want to have a look :) I couldn't do the missing service one tho because that's updating the database
+-----------------------------
+-----------------------------
+mha585
+2023-08-08T13:55:08.815+12:00
+Sorry :disappointed: the issue is back where when editing any competition then it does not edit and I get re-directed to /competition/300/edit?Activity%20type%20cannot%20be%20null but this error does not show up on the page.
+
+Also I think it is worth it to fix the 3 sonar lint issues about not checking if optionals exist before accessing them because this could lead to issues down the line
+-----------------------------
+-----------------------------
+edi28
+2023-08-09T08:49:16.461+12:00
+I fixed the bug and the two .get()'s I could find in my code. Seems like the rest aren't my doing?
+-----------------------------
+-----------------------------
+edi28
+2023-08-09T08:50:20.157+12:00
+Ignore that was looking at the wrong branch I have now fixed all 3
+-----------------------------
+-----------------------------
+jfa93
+2023-08-07T15:25:15.953+12:00
+These will need to be added back in
+-----------------------------
+-----------------------------
+mrw106
+2023-08-07T15:33:56.949+12:00
+Re-added, nice spotting
+-----------------------------
+-----------------------------
+jfa93
+2023-08-07T15:25:16.155+12:00
+I don't think that this Javadoc represents what the function is doing very well. Maybe it would be good to specify what changes to the view model this function will do before passing it to persistence
+-----------------------------
+-----------------------------
+mrw106
+2023-08-07T16:14:51.252+12:00
+restructured/reworded it to be more accurate.
+-----------------------------
+-----------------------------
+jfa93
+2023-08-07T15:25:16.243+12:00
+I think that this function may have some unnecessary parameters.
+Since a competition doesn't initialize with any teams you could omit the HashSet<TabTeam> in favour of creating it in the entity.
+It would also be good to remove the Team parameter as competitions don't have a team associated with them (unlike normal activities). As such, it might be good to set this in the constructor.
+-----------------------------
+-----------------------------
+mrw106
+2023-08-07T16:11:07.117+12:00
+Made the team change but the teams parameter is used for testing so I haven't touched it.
+-----------------------------
+-----------------------------
+jfa93
+2023-08-07T15:25:16.362+12:00
+This should probably have Javadoc
+-----------------------------
+-----------------------------
+jfa93
+2023-08-07T15:25:16.446+12:00
+It would be good to specify this is required for JPA
+-----------------------------
+-----------------------------
+mrw106
+2023-08-07T15:59:24.890+12:00
+Done
+-----------------------------
+-----------------------------
+jfa93
+2023-08-07T15:25:16.563+12:00
+I think this isn't the right return statement, It looks like it redirects to the competition view page
+-----------------------------
+-----------------------------
+mrw106
+2023-08-07T15:57:25.712+12:00
+Fixed.
+-----------------------------
+-----------------------------
+jfa93
+2023-08-07T15:25:16.646+12:00
+Not that this is something we practice as a team but I think it might be good to start pushing for logger messages whenever we redirect to error explaining why it was done
+-----------------------------
+-----------------------------
+mrw106
+2023-08-07T15:53:03.726+12:00
+Added warns with relevant details.
+-----------------------------
+-----------------------------
+jfa93
+2023-08-07T15:25:16.752+12:00
+Javadoc
+-----------------------------
+-----------------------------
+mrw106
+2023-08-07T15:47:23.969+12:00
+done though its simple, does it need more?
+-----------------------------
+-----------------------------
+jfa93
+2023-08-07T15:25:16.856+12:00
+Javadoc
+-----------------------------
+-----------------------------
+mrw106
+2023-08-07T15:47:35.024+12:00
+done though its simple, does it need more?
+-----------------------------
+-----------------------------
+jfa93
+2023-08-07T15:25:16.944+12:00
+This could be re-used maybe we should put it in SportRepositorySteps.java
+-----------------------------
+-----------------------------
+mrw106
+2023-08-07T15:45:26.386+12:00
+Moved to a new sport repository file
+-----------------------------
+-----------------------------
+jfa93
+2023-08-07T15:25:17.025+12:00
+As above, this would be good to put in CompetitionRepositorySteps, it will be super useful for integration tests for the competition calendar
+-----------------------------
+-----------------------------
+mrw106
+2023-08-07T15:44:40.499+12:00
+Moved to a new competition repository file
+-----------------------------
+-----------------------------
+jfa93
+2023-08-07T15:25:17.107+12:00
+A lot of these aren't used in this file. If you want we could talk about why each one should / shouldn't be here. Short answer though is only the repositories used should be here (Sport and Competition).
+-----------------------------
+-----------------------------
+mrw106
+2023-08-07T15:38:24.606+12:00
+Fair point, forgot to clan those up. They have been deleted.
+-----------------------------
+-----------------------------
+eca66
+2023-08-08T10:32:49.238+12:00
+This looks like it would return an internal server error instead of bad request response if the activity isn't present, probably doesn't matter that much though
+-----------------------------
+-----------------------------
+eca66
+2023-08-08T10:47:03.097+12:00
+sonarqube says these should all be compared using .equals()
+-----------------------------
+-----------------------------
+eca66
+2023-08-08T10:55:52.680+12:00
+this is pretty long <3
+-----------------------------
+-----------------------------
+cda90
+2023-08-08T15:35:23.213+12:00
+Shortened it the best I could. Has to be fairly long regardless but there were a few improvements that could be made.
+-----------------------------
+-----------------------------
+mrw106
+2023-08-08T14:31:47.735+12:00
+Box is currently empty when there are no activities that the team has participated in. It would be good to add a default text such as 'This team has not participated in any activities'
+-----------------------------
+-----------------------------
+eca66
+2023-08-04T12:41:02.496+12:00
+javadoc missing and not tested
+-----------------------------
+-----------------------------
+eca66
+2023-08-04T11:41:57.802+12:00
+Missing javadoc
+-----------------------------
+-----------------------------
+eca66
+2023-08-04T11:47:37.203+12:00
+What are the @Column tags for?
+-----------------------------
+-----------------------------
+eca66
+2023-08-04T11:56:20.047+12:00
+A pretty big issue here is that if you don't edit any of the fields then it sets them all to null eg. if you created a competition with a location, but then don't edit the location, the location is set to null. Same with any field that is not edited. You need to check if it has actually been updated and if it hasn't then you need to set it to what it used to be before you save the updated competition. There will probably be a good example of this on one of our other edit endpoints.
+-----------------------------
+-----------------------------
+eca66
+2023-08-04T11:56:50.252+12:00
+Probably only need fields that can actually be edited.
+-----------------------------
+-----------------------------
+eca66
+2023-08-04T12:02:41.219+12:00
+Does this need to be three functions? Could be one validation function (that just checks for null values).
+-----------------------------
+-----------------------------
+jfa93
+2023-08-04T10:21:52.892+12:00
+One thing that I have been trying to do more recently has been the use of @beforeEach resetMocks() {} and having the defaults match the blue sky scenario. This means that for reach test after this 1 it will likely be changing one mock to defer from the blue sky flow and test the result making for smaller tests.
+
+Non-blocking but something to consider for the coming tasks
+-----------------------------
+-----------------------------
+ebr81
+2023-08-03T18:37:00.748+12:00
+clarify that row 8 is the substitution row?
+-----------------------------
+-----------------------------
+eca66
+2023-08-04T11:33:59.793+12:00
+I just added comments to the code to clarify this, let me know if there was something else you wanted done here.
+-----------------------------
+-----------------------------
+ebr81
+2023-08-03T18:37:00.881+12:00
+this code looks very similar to checkPlayedInMatch(), refactor to call that method here
+-----------------------------
+-----------------------------
+ebr81
+2023-08-03T18:37:01.015+12:00
+refactor to checkPlayedInMatch() ?
+-----------------------------
+-----------------------------
+ebr81
+2023-08-03T18:37:01.111+12:00
+refactor to checkPlayedInMatch() ?
+-----------------------------
+-----------------------------
+ebr81
+2023-08-03T18:37:01.195+12:00
+like in playerOnField(): clarify that row 8 is the substitution row?
+-----------------------------
+-----------------------------
+ebr81
+2023-08-03T18:37:01.301+12:00
+rename to playerCurrentlyOnPitch, and maybe use a boolean (and cast to int as necessary) if it won't make the code too complicated
+-----------------------------
+-----------------------------
+ebr81
+2023-08-03T18:37:01.434+12:00
+redundant else
+-----------------------------
+-----------------------------
+eca66
+2023-08-04T11:11:17.076+12:00
+Not sure which else you're referring to, but if you're referring to else { break; } then its there so that it doesn't do any more checks in the for loop.
+-----------------------------
+-----------------------------
+ebr81
+2023-08-04T11:46:40.678+12:00
+oh oops it's needed
+-----------------------------
+-----------------------------
+ebr81
+2023-08-03T18:37:01.573+12:00
+you may want to use `@BeforeEach` for common mocks to reduce duplicate lines, and override specific mocks per-method as necessary (although use of when() is something we should discuss as a team)
+-----------------------------
+-----------------------------
+eca66
+2023-08-04T11:36:58.295+12:00
+I've pulled out things that are often similar but most of the mocks return very specific things so most will have to be overridden anyway.
+-----------------------------
+-----------------------------
+ebr81
+2023-08-03T18:37:01.717+12:00
+as commented elsewhere:
+you may want to use `@BeforeEach` for common mocks to reduce duplicate lines, and override specific mocks per-method as necessary (although use of when() is something we should discuss as a team)
+-----------------------------
+-----------------------------
+ebr81
+2023-08-03T18:37:01.830+12:00
+SonarQube: Replace this null literal by an "Optional" object.
+-----------------------------
+-----------------------------
+eca66
+2023-08-04T11:38:24.442+12:00
+Fixed when refactored.
+-----------------------------
+-----------------------------
+cda90
+2023-08-02T15:44:29.925+12:00
+Sonarqube doesn't like the lack of .isPresent() checks on both currentUser and competitionActivity
+-----------------------------
+-----------------------------
+eca66
+2023-08-01T15:07:51.411+12:00
+Could also have this earlier in the method for the same reason as before.
+-----------------------------
+-----------------------------
+eca66
+2023-08-01T15:10:48.546+12:00
+Could possibly have this earlier on in the method so it doesn't do so many checks before just redirecting anyway? Not a big deal though
+-----------------------------
+-----------------------------
+eca66
+2023-08-01T15:12:17.355+12:00
+Looks good, missing some tests on activity controller to check it actually redirects when it should ie. when the activity is an instance of competition activity (on the same bits of code I commented on). Otherwise code looks good.
+-----------------------------
+-----------------------------
+edi28
+2023-08-03T10:58:26.683+12:00
+I don't actually know if i can cause i can't create a competition within the activity controller so i'm not sure how i'd write the test? but if you have any ideas I would love your help!
+-----------------------------
+-----------------------------
+eca66
+2023-08-01T15:19:18.557+12:00
+![image](/uploads/cbb9b2ac430184afacc8b13f85c29992/image.png)
+
+Is this supposed to only take up a small bit of the screen? All good if it is just checking there's a reason.
+-----------------------------
+-----------------------------
+edi28
+2023-08-02T19:30:16.989+12:00
+yup i just figured we will be putting stuff next to it anyway so i didn't think it mattered
+-----------------------------
+-----------------------------
+ebr81
+2023-07-30T03:54:02.779+12:00
+I was thinking of adding another validation method to check a given activity type does exist (to fix #8 ), however I did not as a. it wasn't directly related to the task (and I'm not sure on how much leniency there is), and b. it's possible that enum existence checking is something that should be looked at across the get/post controllers, and c. it's a minor issue that won't occur unless we make an incomplete change, or if the user sidesteps the frontend.
+-----------------------------
+-----------------------------
+jfa93
+2023-07-30T12:49:30.934+12:00
+Since this validation only applies to the form it may be better to put it in the controller especially since it's one line. Etc this validator should work for competitions as well for the competition controller but this wouldn't make sense
+-----------------------------
+-----------------------------
+jfa93
+2023-07-31T14:55:46.475+12:00
+A great exercise when making small changes like this is checking the javadoc. Inherently what the function has done has changed. Either the old javadoc wasn't specific enough meaning we need to tighten what it says to say "Competitions cannot be created through this function" or it was perfect as is and must be changed because the conditions that were described are no longer true.
+
+In this case, it is that the javadoc isnt specific enough and it should be adjusted to say "cannot create a competition through this
+function"
+
+On top of this, the javadoc will need an @throws tag for the Illegal Argument. Maybe instead of throwing its added as a precondition placing the responsibility instead on the controller.
+-----------------------------
+-----------------------------
+jfa93
+2023-07-31T16:06:51.672+12:00
+Sorry on second read I noticed the try catch this should be okay with the javadoc changes :smile_cat:
+-----------------------------
+-----------------------------
+mha585
+2023-07-29T21:56:36.370+12:00
+Looks good! I noticed an issue where if you are a federation administrator you can visit /activity/15/edit rather than /competition/15/edit and can edit everything as normal through here. Should we have two different edit pages on two different endpoints with different layouts? If there is a valid reason to have /competition/15/edit instead of activity maybe change it so the activity edit page redirects to the competition edit page if the activity is a compeition.
+If you resolve the merge conflicts and send me a message when the above changes are made (if they even need to be made!) then im happy to approve :smile:
+
+As an unrelated note I noticed we can create a competition still through the normal dropdown in /activity/create despite not being a federation administrator I realise this is unrelated to this task but I want to make a note of it so we remember to fix it eventually.
+-----------------------------
+-----------------------------
+ebr81
+2023-07-30T04:01:33.257+12:00
+Good spotting about the two edit pages, I'll discuss those with Jack.
+Regarding the unrelated /activity/create note: !328 - the bot assigned it to Eliza.
+-----------------------------
+-----------------------------
+jfa93
+2023-07-31T11:14:20.355+12:00
+Hey Matt your concern about the activity/x/edit is already being tackled by Ella in her task and is out of the scope of this task (although agreed its an issue)
+-----------------------------
+-----------------------------
+edi28
+2023-07-28T13:57:32.039+12:00
+[Merge After] add @currSprint
+-----------------------------
+-----------------------------
+pwh54
+2023-07-27T14:59:11.311+12:00
+No @CurrSprint
+-----------------------------
+-----------------------------
+pwh54
+2023-07-27T14:59:11.474+12:00
+"to create competitions"
+-----------------------------
+-----------------------------
+pwh54
+2023-07-27T14:59:11.671+12:00
+userRoles is set to new Arraylist when adding a favourite sport???
+-----------------------------
+-----------------------------
+pwh54
+2023-07-27T14:59:11.835+12:00
+Name could be doesntHaveAuthority instead of DoesntHave to be slightly clearer
+-----------------------------
+-----------------------------
+edi28
+2023-07-27T14:56:19.057+12:00
+It doesn't completely pass the AC's as I can still add subs when the lineup isn't full by removing someone from the lineup after it was full. Also you've used a couple while loops I think these will be better as for loops because we know how many iterations there will be. Otherwise tho it's definitely on it's way there! :smile: :heart: :raised_hands:
+-----------------------------
+-----------------------------
+mrw106
+2023-07-28T15:13:10.053+12:00
+It now includes two more bug fixes and works as discussed in the group.
+-----------------------------
+-----------------------------
+edi28
+2023-07-27T14:56:41.171+12:00
+i think this would be better as a for loop
+-----------------------------
+-----------------------------
+mrw106
+2023-07-28T15:12:09.413+12:00
+Made it a for loop.
+-----------------------------
+-----------------------------
+edi28
+2023-07-27T14:56:55.251+12:00
+same with this one
+-----------------------------
+-----------------------------
+mrw106
+2023-07-28T15:12:26.254+12:00
+Same with this one.
+-----------------------------
+-----------------------------
+edi28
+2023-07-31T14:54:04.191+12:00
+might want to delete this!
+-----------------------------
+-----------------------------
+jfa93
+2023-07-25T17:06:54.406+12:00
+Needs to be CompetitionService.class
+-----------------------------
+-----------------------------
+jfa93
+2023-07-25T17:06:54.522+12:00
+Javadoc
+-----------------------------
+-----------------------------
+jfa93
+2023-07-25T17:06:54.619+12:00
+A more JPA solution to this would be to use the .findAll() and casting to a List in the service layer.
+
+By default this returns an iterator that we can cast to a list (See UserRepositorySteps::thereAreNoUsers). This is how its done for the team service aswell.
+-----------------------------
+-----------------------------
+jfa93
+2023-07-25T17:07:30.337+12:00
+Javadoc
+-----------------------------
+-----------------------------
+edi28
+2023-07-25T17:08:28.458+12:00
+```suggestion:-0+0
+    Logger logger = LoggerFactory.getLogger(CompetitionService.class);
+```
+-----------------------------
+-----------------------------
+cda90
+2023-07-19T12:39:17.217+12:00
+Forgot to delete - assuming was for debugging
+-----------------------------
+-----------------------------
+cda90
+2023-07-19T12:39:17.352+12:00
+Guessing these logs are also unneeded
+-----------------------------
+-----------------------------
+jfa93
+2023-07-19T12:34:34.942+12:00
+![image](/uploads/f72df13afe98118981cc277211809bc4/image.png)
+
+![image](/uploads/8d3efc2dd9e6cb402fe59e637741cd3b/image.png)
+
+2 Failing Cypress tests
+-----------------------------
+-----------------------------
+jfa93
+2023-07-19T12:42:57.512+12:00
+Wrong lineup branch lol its good
+-----------------------------
+-----------------------------
+edi28
+2023-07-19T10:10:27.471+12:00
+There are 7 major bugs on the sonarCube it's all the same thing which is checking values are present before getting them. Should be an easy fix I won't write them all down because it's a bit redundant but just have a look over them and fix those you can :smile:
+-----------------------------
+-----------------------------
+eca66
+2023-07-19T11:17:47.525+12:00
+Part of a larger issue, just gonna leave it for the sake of getting things merged in
+-----------------------------
+-----------------------------
+cda90
+2023-07-17T14:52:29.398+12:00
+Currently you can't change the lineup from being a goal to a net or vice versa. For example:
+- Create a lineup with "1-2-3-4" and "net"
+- Create a new lineup with "1-2-3-4" and "goal"
+- Lineup is not overridden or duplicated (with differing goal and net)
+-----------------------------
+-----------------------------
+eca66
+2023-07-18T09:45:39.370+12:00
+I think this is fixed but could use some more manual testing just to check
+-----------------------------
+-----------------------------
+cda90
+2023-07-19T10:43:17.678+12:00
+Console log left in
+-----------------------------
+-----------------------------
+cda90
+2023-07-19T10:43:17.899+12:00
+Is this comment needed? (or is it some new thymeleaf feature I didn't know about)
+-----------------------------
+-----------------------------
+cda90
+2023-07-19T10:43:18.082+12:00
+While getting rid of the console log, could add a "rounded" class to this div to make the net indicator have rounded corners like the goal indicator does - just for consistency
+-----------------------------
+-----------------------------
+cda90
+2023-07-19T10:43:18.304+12:00
+Sonarlint doesn't like this - doubt it was meant to be merged
+-----------------------------
+-----------------------------
+jfa93
+2023-07-17T11:08:28.646+12:00
+This will merge conflict once https://eng-git.canterbury.ac.nz/seng302-2023/team-500/-/merge_requests/294 is merged in. For reference I think sticking with yours will be good in the conflict.
+-----------------------------
+-----------------------------
+jfa93
+2023-07-17T11:10:55.267+12:00
+This can probably be simplified using the activityService.canEdit(). This assumes the isCoach || isCreator boolean adn we can probably just simplifiy the error message to make this simpler. As is I think this is overly complex. Im happy to hear your thoughts though.
+-----------------------------
+-----------------------------
+jfa93
+2023-07-17T11:12:15.588+12:00
+This should have a transactional so if something goes wrong with deleting it will roll back the invitation deletes
+-----------------------------
+-----------------------------
+jfa93
+2023-07-17T11:17:36.556+12:00
+Could be simplified to just else
+-----------------------------
+-----------------------------
+jfa93
+2023-07-17T11:22:56.947+12:00
+This will need to be cleaned up
+-----------------------------
+-----------------------------
+jfa93
+2023-07-17T11:27:40.100+12:00
+Javadoc
+-----------------------------
+-----------------------------
+jfa93
+2023-07-17T11:27:54.300+12:00
+Javadoc
+-----------------------------
+-----------------------------
+pwh54
+2023-07-17T12:44:25.363+12:00
+Non-Blocking but each of these player creations should really be extracted into a single function, reducing the size of the test function significantly.
+-----------------------------
+-----------------------------
+pwh54
+2023-07-17T12:44:25.613+12:00
+You could be returning bad requests in the validateLineup function instead of returning a string. Non-blocking but an unusual solution.
+-----------------------------
+-----------------------------
+eca66
+2023-07-13T20:16:11.583+12:00
+javadoc
+-----------------------------
+-----------------------------
+eca66
+2023-07-13T20:17:54.302+12:00
+this probably shouldn't have changed
+-----------------------------
+-----------------------------
+cda90
+2023-07-14T08:31:55.982+12:00
+Thanks for catching that, my IDE is insistent that it needs changing
+-----------------------------
+-----------------------------
+eca66
+2023-07-13T20:24:32.776+12:00
+Up to you if you want to, but as this is the final task on this story it might be good to write some cypress tests for the remaining AC's (2 and 3).
+-----------------------------
+-----------------------------
+cda90
+2023-07-14T08:42:22.526+12:00
+AC2 is the AC about having a pitch which matches the team's sport - which we got marked as optional - so I will definitely write a test for AC3 but will leave AC2 for if we get around to implementing that functionality.
+-----------------------------
+-----------------------------
+ebr81
+2023-07-17T18:45:56.462+12:00
+edited but not marked @currSprint
+-----------------------------
+-----------------------------
+jfa93
+2023-07-18T09:39:18.175+12:00
+Integration tests are all ran all the time, this tag is used for cypress tests
+-----------------------------
+-----------------------------
+ebr81
+2023-07-17T18:45:56.638+12:00
+ActivityValidator not in the ER diagram
+-----------------------------
+-----------------------------
+jfa93
+2023-07-18T09:37:54.075+12:00
+Its not a database entity, the ER diagram is for database representation
+-----------------------------
+-----------------------------
+ebr81
+2023-07-17T18:45:56.761+12:00
+BaseValidator not in the ER diagram
+-----------------------------
+-----------------------------
+jfa93
+2023-07-18T09:37:50.796+12:00
+Its not a database entity, the ER diagram is for database representation
+-----------------------------
+-----------------------------
+cda90
+2023-07-13T09:10:35.986+12:00
+Typo :grin:
+-----------------------------
+-----------------------------
+eca66
+2023-07-13T09:25:06.666+12:00
+I'm so sorry maybe this is dumb but what's the typo?
+-----------------------------
+-----------------------------
+cda90
+2023-07-13T09:32:26.834+12:00
+Nevermind :laughing: I forgot about using a backslash as an escaping character
+-----------------------------
+-----------------------------
+eca66
+2023-07-13T09:38:59.530+12:00
+Ah all good!
+-----------------------------
+-----------------------------
+cda90
+2023-07-13T10:15:51.522+12:00
+Might be a good idea to include the fact that the string also requires hyphens. Could be confusing to the less experienced user
+-----------------------------
+-----------------------------
+mha585
+2023-07-13T20:28:20.432+12:00
+Totally non-blocking but we already have a common step for this. But I think I prefer this as it is more clear then the existing step definition of:
+"An error message: {string} appears containing {string} says the field is invalid".
+-----------------------------
+-----------------------------
+mha585
+2023-07-13T20:51:14.966+12:00
+At the moment if someone is in both teams it would only show the main team associated with the activity not the opponent team. I know it's not something to resolve in this task but something we do need to figure out soon
+-----------------------------
+-----------------------------
+mha585
+2023-07-13T21:03:33.470+12:00
+SonarQube is pretty upset with all the .get()'s here. If the Activity does not exist it could easily throw errors. Also might be good to write some unit tests for this function
+-----------------------------
+-----------------------------
+mrw106
+2023-07-08T16:04:40.703+12:00
+Should have the @currSprint tag so that the tests are properly run.
+-----------------------------
+-----------------------------
+mrw106
+2023-07-08T16:04:40.857+12:00
+Overall, looks good. Code is clean and the part of the system worked on is messy so good job fixing the problem. this cannot be merged currently due to the below issues and the second comment. 
+
+Has a bug where is a location is entered incorrectly (missing city etc), the previous button is pressed then the activity is submitted it submits without the location. If however the submit button is pressed before the previous button pressed then the submit action will be blocked once but if pressed again will submit without the location. These behaviours should probably be made consistent whether that be the location always being ignored if submitting from the first page or always demanding the location be properly set if incorrectly set on the second page.
+
+Code coverage does not meet the 80% sonarcube threshold for test coverage on new code.
+Likewise the lack of tests pushes the total program test coverage below the 85% line threshold These two are quite obviously solved the same way :smile:.
+Wasn't able to do manual testing due to autofill bugs that are not branch specific but do make checking for bugs in the system awkward.
+-----------------------------
+-----------------------------
+ebr81
+2023-07-09T03:01:14.979+12:00
+> If however the submit button is pressed before the previous button pressed then the submit action will be blocked once but if pressed again will submit without the location.
+
+Can you provide a video or steps to reproduce? I can't reproduce this bug.
+(If you prefer in person that's fine, I can be in the labs Tuesday onwards.)
+
+The intended behaviour is to block the submit button unless the location is valid, non-existent, or not meant to be submitted.
+
+Thanks for the reminder re. testing - I didn't do unit tests as they weren't specified in the task description (and I forgot about our DoD...)
+-----------------------------
+-----------------------------
+mrw106
+2023-07-10T12:43:36.286+12:00
+the bug was if you add an invalid location, submit it (so it fails), go back to the details page, submit there (will fail as expected) but submitting again from the details page will submit the activity instead of blocking. I can show you on Tuesday since that's probably easier.
+-----------------------------
+-----------------------------
+mrw106
+2023-07-18T23:23:54.288+12:00
+has been solved
+-----------------------------
+-----------------------------
+cda90
+2023-07-11T07:47:43.168+12:00
+This could (and probably should) be swapped out for a switch statement (https://www.w3schools.com/java/java_switch.asp) which will make it slightly more expandable and more readable.
+-----------------------------
+-----------------------------
+cda90
+2023-07-11T08:18:22.267+12:00
+Sonarlint has raised two issues with the function actionIncomingActivityInvitation() in TeamProfileRestController:
+- High cognitive complexity (18, where 15 is the threshold) - I think if you use a switch statement instead of the if statement it might help
+- On line 156 you use oCurrentUser but you have not checked if the user is present using oCurrentUser.isEmpty(), which risks throwing an unhandled error if the user is not logged in for some reason.
+-----------------------------
+-----------------------------
+edi28
+2023-07-03T11:52:19.698+12:00
+```suggestion:-0+0
+     * @return A stream of formations matching the query
+```
+-----------------------------
+-----------------------------
+edi28
+2023-07-03T11:55:49.866+12:00
+In the lineup repository you save the new lineup should you be doing the same here? 
+
+```suggestion:-0+0
+        return oFormation.orElseGet(() -> formationRepository.save(new Formation(TabStringUtility.toCapitalCase(layout))));
+```
+-----------------------------
+-----------------------------
+edi28
+2023-07-03T12:00:55.549+12:00
+```suggestion:-0+0
+     * @return Returns the team given it works. It returns empty if it doesn't.
+```
+-----------------------------
+-----------------------------
+edi28
+2023-07-03T12:43:49.181+12:00
+According to sonarlint this is a new bug but you haven't touched it so i'm not sure why it is new but it should be fixed anyway. Sonarlint says Call "oActivity.isPresent()" or "!oActivity.isEmpty()" before accessing the value. The below should fix it
+
+```suggestion:-0+0
+        else if ((oActivity.get().getActivityType() == ActivityType.FRIENDLY || oActivity.get().getActivityType() == ActivityType.GAME) && teamFromId.isEmpty()) {
+```
+-----------------------------
+-----------------------------
+edi28
+2023-07-03T12:48:07.038+12:00
+Just seems a bit redundant but again not a big deal so feel free to leave it if you can't be bothered
+
+```suggestion:-1+0
+        return formationRepository.findById(id);
+```
+-----------------------------
+-----------------------------
+jfa93
+2023-07-08T17:05:04.806+12:00
+This will need some javadoc for the class
+-----------------------------
+-----------------------------
+jfa93
+2023-07-08T17:05:05.057+12:00
+This will need some javadoc for the class.
+
+It might be good to consider here if we need both a formation and a lineup service. There is a strong coupling between the two and it may make more sense in the long run to keep them together. I imagine as we add functionality with users and teams we will end up with this service pinging 3 other services (Team / User / Activity) and it might reduce dependencies.
+-----------------------------
+-----------------------------
+jfa93
+2023-07-08T17:05:05.188+12:00
+Im not sure if its safe to have a getter function that actively creates data in the Database. Using REST principles as an adjacent topic, we would want a GET method to have read permissions and it may be that we should split this functionality into two functions or rename this one to represent what it is achieving. 
+
+Another thing to consider with this function is null handling, do we want these fields to ever be null? What would happen if they were? It may be totally okay for these to be null or maybe we just expect that to be a precondition, This would be well suited for the javadoc comment.
+
+One last thing I want to ask about is what context this function is used in? When I ask myself what information would I have when I am trying to find a lineup I would likely say the team I am looking at and the activity that they are playing in. It puts a burden on the caller to find the formation thats being used before calling which shouldnt be needed on the assumption that each team can only have one formation per activity (To be confirmed?)
+-----------------------------
+-----------------------------
+jfa93
+2023-07-08T17:05:05.336+12:00
+A couple of ideas here,
+
+Is there a way that we can make this a unique key? It would be a good constraint to have on the database so that we dont end up with multiple lineups for the same team for the same activity.
+
+This may be extreme so I wouldnt worry about it but this may be a case of data duplication in the database. An Activity knows which teams are involved and teams that arent involved shouldnt be able to have a lineup. These two pieces of information indicate to me that maybe we dont need to include a team here and maybe its just a boolean to represent if its Home or Opponent.
+-----------------------------
+-----------------------------
+jfa93
+2023-07-08T17:05:05.454+12:00
+Might have to check the other entities but this will need javadoc
+-----------------------------
+-----------------------------
+eca66
+2023-07-03T15:32:50.106+12:00
+Need the @currSprint tag
+-----------------------------
+-----------------------------
+eca66
+2023-07-03T15:33:29.793+12:00
+Needs @currSprint tag
+-----------------------------
+-----------------------------
+edi28
+2023-06-29T13:23:10.930+12:00
+I'm just playing around with it, when I tried to add a fact it said I couldn't? No clue why? Are there any parameters I don't know about in terms of adding a fact for an activity in the future? Or the players role. I was adding to the crusaders game on the 7th while logged in as email@email.com
+-----------------------------
+-----------------------------
+mha585
+2023-06-29T20:55:14.458+12:00
+Just had a look at it seems like another data.sql issue where email@email.com created an event for a team they are not a member of so they have the permissions to edit it despite not being a member causing issues. I updated the data.sql so it should be fixed.
+-----------------------------
+-----------------------------
+edi28
+2023-07-02T11:47:15.512+12:00
+Ahh ok perfect. That would be the same issue I was trying to sort with the data.sql
+-----------------------------
+-----------------------------
+edi28
+2023-06-27T11:40:12.543+12:00
+??
+-----------------------------
+-----------------------------
+mha585
+2023-06-27T11:42:39.216+12:00
+Yeah I couldnt think of a good icon for the facts. The AC's state substitution and score events need to have the players icon next to them but there was nothing about facts. Im open to suggestions though
+-----------------------------
+-----------------------------
+edi28
+2023-06-27T11:44:39.052+12:00
+Yeah it looks a little weird with nothing next to it. We could do something like the pencil icon that's on git?
+-----------------------------
+-----------------------------
+jfa93
+2023-06-27T12:27:35.290+12:00
+We may not need both of these, what if we rename your chronological one to getStatModel and add the sorting  as a postcondition in the javadoc. That ways anyone that sees will know the ordering but is able to edit it somewhere else instead of duplicating the model creation here.
+-----------------------------
+-----------------------------
+jfa93
+2023-06-27T12:27:35.423+12:00
+It might be a hassle but we probably shouldnt be storing presentation methods in the Domain like this. This might be better suited in the view model. Non-blocking though, not the biggest issue.
+-----------------------------
+-----------------------------
+mha585
+2023-06-26T15:34:47.285+12:00
+Maybe could good to have javadoc with any new response codes here
+-----------------------------
+-----------------------------
+edi28
+2023-06-29T13:53:58.176+12:00
+```suggestion:-0+0
+                document.getElementById("substitutionErrorMessage").innerText = "Can't substitute before the game started"
+```
+-----------------------------
+-----------------------------
+edi28
+2023-06-29T13:54:23.781+12:00
+```suggestion:-0+0
+    Then The substitution error field appears with the text "Can't substitute before the game started"
+```
+-----------------------------
+-----------------------------
+jfa93
+2023-06-04T16:27:49.457+12:00
+I don't think this accounts for if its a team training or activity that doesn't require a team but can additionally still have one.
+
+SonarQube complained alot about the length of this method maybe it would be worth a larger rewrite
+-----------------------------
+-----------------------------
+cda90
+2023-06-01T18:33:14.675+12:00
+Can we be sure that the search query is also going to be lowercase, seeing as the team name is being case to lower?
+-----------------------------
+-----------------------------
+eca66
+2023-06-25T15:17:14.826+12:00
+The query is set to lower case in the tab team service before being passed to the repository so this shouldn't be an issue.
+-----------------------------
+-----------------------------
+cda90
+2023-06-01T18:33:14.847+12:00
+Edited, so will need @currSprint tag
+-----------------------------
+-----------------------------
+cda90
+2023-06-01T18:33:14.991+12:00
+We will want to move the team that the user selects to the front of the list:
+e.g. If list is usually celtics -> warriors -> settlers, and the user selects warriors, the list should become: warriors -> celtics -> settlers
+This means for larger amounts of teams, the user can easily see their choice
+-----------------------------
+-----------------------------
+eca66
+2023-06-25T15:16:10.282+12:00
+Not sure if you still want me to do this, but there is a max of I think 8 teams displayed at once so there should never be too many teams that it's hard to see the choice
+-----------------------------
+-----------------------------
+jfa93
+2023-05-26T15:52:08.501+12:00
+Javadoc
+-----------------------------
+-----------------------------
+jfa93
+2023-05-26T15:52:08.651+12:00
+This looks like it denies coaches access which goes against AC's. Definitely should fill out the associated AC's when doing the Merge request
+-----------------------------
+-----------------------------
+jfa93
+2023-05-26T15:52:08.767+12:00
+What happens if you pass a null team?
+
+This could sound like a dumb test but it could be pretty accidental to pass a null value to this and im pretty sure JPA throws an error if you pass a null value
+-----------------------------
+-----------------------------
+jfa93
+2023-05-26T15:52:08.822+12:00
+Some seed data to easily see the view would be nice aswell for email@email.com
+-----------------------------
+-----------------------------
+jfa93
+2023-05-26T15:52:08.943+12:00
+Is it intentional for this to return the opponent of an activity? I thought that the opponent column was for after a team has accepted the invitation
+-----------------------------
+-----------------------------
+eca66
+2023-05-27T13:57:20.684+12:00
+I can change it so the opponent column is for when the invitation accepted if that was the intention of this table, and create a new activity invitation entity for when invites are pending.
+-----------------------------
+-----------------------------
+jfa93
+2023-05-26T09:56:11.444+12:00
+It may be good to add some tests for null handling of these variables the first use of each is password.matches or .length and they will throw an error which we arent catching
+-----------------------------
+-----------------------------
+jfa93
+2023-05-26T09:57:26.388+12:00
+Javadoc
+-----------------------------
+-----------------------------
+jfa93
+2023-05-26T09:57:32.117+12:00
+Javadoc
+-----------------------------
+-----------------------------
+jfa93
+2023-05-17T13:23:29.523+12:00
+This should definitely not be one endpoint, there should be one for users and one for teams and they should be on the profile controllers.
+
+We shouldnt fix this now though
+-----------------------------
+-----------------------------
+cda90
+2023-05-16T20:43:47.862+12:00
+I believe that Java's contains method is case sensitive, so this might fail sometimes even though the password does contain the user's name or email. e.g. First name is Jack, then password is jackiscool would fail.
+-----------------------------
+-----------------------------
+cda90
+2023-05-16T20:43:48.426+12:00
+Is there a way to make these standardised? It feels a bit dodgy to have to rely on someone not mistyping
+-----------------------------
+-----------------------------
+jfa93
+2023-05-17T11:06:59.353+12:00
+Do you think I can leave this as is? I cant imagine us adding a another change password flow and changing this could take a significant amount of time (and potentially breaking cypress tests).
+-----------------------------
+-----------------------------
+jfa93
+2023-05-17T11:07:08.671+12:00
+I do agree though that this is a huge code smell
+-----------------------------
+-----------------------------
+jfa93
+2023-05-16T15:25:03.533+12:00
+SASS
+-----------------------------
+-----------------------------
+jfa93
+2023-05-16T15:25:03.642+12:00
+...
+-----------------------------
+-----------------------------
+jfa93
+2023-05-16T10:03:45.895+12:00
+SonarLint isnt happy with putting public modifiers on unit tests. Not blocking but we should be shifting away from it
+-----------------------------
+-----------------------------
+jfa93
+2023-05-16T10:05:54.885+12:00
+There needs to be more tests for validation, etc a test for each required param missing, empty strings, breaking regex's
+-----------------------------
+-----------------------------
+jfa93
+2023-05-13T15:46:06.705+12:00
+Could we consider generalizing this so it has more use cases?
+
+what if we overloaded getUserTeams -> getUserTeams(TabUser user, Role role) that returns all the teams where the user has that permission level or higher and remove the work I so that its general to all users?
+-----------------------------
+-----------------------------
+jfa93
+2023-05-13T15:46:06.892+12:00
+Javadoc Missing
+-----------------------------
+-----------------------------
+jfa93
+2023-05-13T15:46:07.049+12:00
+If something goes wrong with saving I think we should propogate that failure to the caller, otherwise the caller would make the assumption that things went well. Normally we do this with the returning optional and checking the optional is present. etc
+
+Controller calls update -> update refused -> Controller uses the returned optional to check for success -> Sees failure -> Reports to user
+
+Or
+
+Controller calls update -> update succeeds -> Controller uses the returned optional to check for success -> Sees Success -> Uses returned activity to display to user
+-----------------------------
+-----------------------------
+eca66
+2023-05-12T10:41:47.620+12:00
+![Screenshot_2023-05-12_at_10.39.59](/uploads/07f70813a579f9d1205b808b370f8749/Screenshot_2023-05-12_at_10.39.59.png)
+
+Somethings up with the calendar when I had a look, and also the card could probably be the full width of the page.
+-----------------------------
+-----------------------------
+mha585
+2023-05-12T10:55:05.615+12:00
+Did you bootrun? there is new sass files for the calendar
+-----------------------------
+-----------------------------
+eca66
+2023-05-12T11:14:27.160+12:00
+Ah that’s probably the issue sorry
+-----------------------------
+-----------------------------
+eca66
+2023-05-11T10:47:31.920+12:00
+This validation could all be done through the view model with the spring validation
+-----------------------------
+-----------------------------
+jfa93
+2023-05-11T09:44:42.940+12:00
+Awesome!
+-----------------------------
+-----------------------------
+jfa93
+2023-05-11T09:52:38.535+12:00
+Javadoc for the class
+-----------------------------
+-----------------------------
+jfa93
+2023-05-11T09:52:38.732+12:00
+This should be updated to mention the token generation
+-----------------------------
+-----------------------------
+jfa93
+2023-05-11T09:52:38.814+12:00
+If this goes wrong we need to pass the error to the user to say something went wrong.
+"There was an error attempting to reset your password please try again later"
+-----------------------------
+-----------------------------
+jfa93
+2023-05-15T10:44:07.296+12:00
+Maybe in the future we can consider having a UserToken Service that handles this and registration tokens
+
+Non-blocking
+-----------------------------
+-----------------------------
+jfa93
+2023-05-15T10:46:32.983+12:00
+Non blocking,
+
+This is a violation of the tell not ask principle, if this goes wrong then we need to be throwing an exception that the handler is forced to catch. Its not so bad in this context as only one function should ever call this but if it was a more re-usable function we would ideally rewrite this to throw an IllegalState or another exception
+-----------------------------
+-----------------------------
+jfa93
+2023-05-15T10:50:27.925+12:00
+Alternatively you could also use Optional.empty which forces them to check the optional is present
+-----------------------------
+-----------------------------
+jfa93
+2023-05-15T10:47:16.949+12:00
+Not the right user story but also doesnt describe the use of these steps
+-----------------------------
+-----------------------------
+jfa93
+2023-05-15T10:48:35.928+12:00
+Do these belong in the fpt repo steps or the confirmpassword repo steps?
+-----------------------------
+-----------------------------
+jfa93
+2023-05-15T10:49:33.175+12:00
+Non blocking but we would definitely want a  mockito.verify to make sure that the token repo is called
+-----------------------------
+-----------------------------
+mha585
+2023-05-10T13:22:12.467+12:00
+Fix the edit button not toggling edit mode
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T17:09:54.660+12:00
+A controller shouldn't throw errors as it always needs to respond to the user, consider using a try catch that logs an error if it goes wrong bur still accepts the change
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T17:09:54.784+12:00
+This looks good but we shouldn't redirect to an error if the email isn't sent
+-----------------------------
+-----------------------------
+ebr81
+2023-05-08T20:07:15.382+12:00
+so ignore any error thrown with
+
+`try {
+    userService.sendPasswordChangedEmail(currentUser.getEmailAddress());
+} catch (MessagingException e) {}` ?
+-----------------------------
+-----------------------------
+jfa93
+2023-05-10T10:37:52.418+12:00
+Messaging Exception is caused by the email service breaking. I wouldnt necessarily ignore it. It should be logged and we can consider sending them a notification saying "Oops the email didnt send" but realistically just redirecting them as normal is fine since they will assume it worked.
+
+We should redirect to error if something critical happens that leads to the password not actually changing
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T17:09:54.921+12:00
+This mock shouldn't be needed as the profile controller doesn't communicate to the email service in.this test, a more suitable mock would be a do-nothing on the userservice.sendpasswordchange...
+-----------------------------
+-----------------------------
+edi28
+2023-05-08T10:02:55.592+12:00
+If possible could you add a unit test in for this file
+-----------------------------
+-----------------------------
+mrw106
+2023-05-08T13:52:19.947+12:00
+As an Enum it's not testable as far as I can tell.
+-----------------------------
+-----------------------------
+edi28
+2023-05-08T10:06:02.267+12:00
+Some unit tests for this file as well would be good just for the sake of code coverage
+-----------------------------
+-----------------------------
+edi28
+2023-05-08T10:06:23.079+12:00
+again unit test if you can
+-----------------------------
+-----------------------------
+edi28
+2023-05-08T10:18:28.704+12:00
+When I click the team members it doesn't take me to their profiles so you might want to fix that. Also wouldn't be a bad idea to write a quick cypress test for that as well. Can you change it so that their name is in the blue for consistencies sake and then their role is in the white part as thats what we have on the view all users cards
+-----------------------------
+-----------------------------
+edi28
+2023-05-08T10:20:49.686+12:00
+For this table I think it also could help to have a maximum page size of 10 and then add pagination at the bottom because otherwise the page is going to fill up really quickly and it will look quite weird on mobile
+-----------------------------
+-----------------------------
+edi28
+2023-05-08T11:11:54.766+12:00
+Is this meant to do something?
+-----------------------------
+-----------------------------
+ebr81
+2023-05-08T12:06:29.039+12:00
+This is the clue code for the composite primary key.
+i.e. tabTeamMember is (TabUser, TabTeam), role - where TabUser and TabTeam are unique for each database record.
+-----------------------------
+-----------------------------
+jfa93
+2023-05-06T12:07:42.156+12:00
+GetUserToken needs to be more specific, they will also have resetpassword token as well
+-----------------------------
+-----------------------------
+edi28
+2023-05-07T12:53:39.935+12:00
+You might just want to fix the text on the scenario for this one
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T11:53:33.786+12:00
+Done
+-----------------------------
+-----------------------------
+edi28
+2023-05-07T12:54:34.068+12:00
+Would be good to add the User story number on this same with the AC numbers for each scenario
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T11:53:43.300+12:00
+Done
+-----------------------------
+-----------------------------
+edi28
+2023-05-07T13:09:54.724+12:00
+Was this deleted for a particular reason? I feel like it would be good to keep it
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T11:19:42.259+12:00
+Yes! Cool thing SonarQube catches, its bad practice to log an error and then throw it, this is because it will block the logs. Imagine I log then throw and then the thing that catches it also logs, we end up duplicating logs. Therefore logging and throwing need to be mutually exclusive in a catch block
+-----------------------------
+-----------------------------
+edi28
+2023-05-07T13:13:05.510+12:00
+I know it's not this task but I think it would look better if the forgot password stuff was in a white card. If you don't want to do it thats fine, I can always chuck it on one of the tasks in to do
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T11:22:23.818+12:00
+Tbh I think it actually looks good on the background as is, I do think the margins should be adjusted though. I dont think think ill do it in this task as we are behind the burndown now
+-----------------------------
+-----------------------------
+edi28
+2023-05-07T13:13:45.338+12:00
+What is this file?
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T11:22:16.050+12:00
+The link in the email needed somewhere to go, this page needs to be a reset password form but thats another task so im leaving it for that
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T10:51:48.478+12:00
+This needs to merge in dev and add this work to the Password Edit functionality
+-----------------------------
+-----------------------------
+ebr81
+2023-05-08T12:29:10.525+12:00
+done
+-----------------------------
+-----------------------------
+ebr81
+2023-05-07T20:19:50.951+12:00
+Are we standardising on 12 hour or 24 hour time? The fields on create activity use 12 hour time, and the redirected-to activity page uses 24 hour time.
+Otherwise LGTM.
+-----------------------------
+-----------------------------
+edi28
+2023-05-08T11:36:47.295+12:00
+12 hour makes more sense to a user
+-----------------------------
+-----------------------------
+ebr81
+2023-05-07T20:23:11.243+12:00
+I also can't find the task for the view activity page.
+Should the view activity page show the last updated time?
+-----------------------------
+-----------------------------
+edi28
+2023-05-08T12:05:45.864+12:00
+viewing activities is a different story
+-----------------------------
+-----------------------------
+ebr81
+2023-05-07T20:25:03.536+12:00
+Do we want to handle timezones?
+-----------------------------
+-----------------------------
+edi28
+2023-05-08T11:37:52.687+12:00
+we are using Coordinated Universal Time so time zones shouldn't be an issue
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T10:41:11.477+12:00
+Is there a reason we arent using date time like we are for the rest of our time handling / do we know this will work in MariaDB? I know a team had an issue with UUID which worked in h2 but not maria
+-----------------------------
+-----------------------------
+edi28
+2023-05-08T12:06:57.652+12:00
+Instant does the time automatically so we figured it made sense to use. I can't say we've tried but i don't see why it would be an issue
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T10:41:11.636+12:00
+I think this leaves us open to a big bug for the following reason. We have no way (currently) to force the use of this command. Currently this is never used, when we use TabTeamService.update, this is going to go out of sync. But following this, TabTeamService has no garuntee of using the updateTeam method etc people may call the repository.save without hitting the updateTeam function. All of this leads to the updated timestamp very often not being correct
+-----------------------------
+-----------------------------
+edi28
+2023-05-08T12:08:01.332+12:00
+The reason we added this is because fabian said this sort of thing would be useful for future stories we may get, even if we aren't using it now i don't see the harm in keeping it in and linking it up properly in the future when we need the data
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T10:41:11.785+12:00
+We definitely need more than one test for invalid inputs, having a couple per condition would be much better cover
+-----------------------------
+-----------------------------
+jfa93
+2023-05-08T10:41:11.960+12:00
+![image](/uploads/75aa809cbe0f1381b7473f1e8e574ec0/image.png)
+This error message is a little ambiguous, users may think "yes it does, I literally just selected it". Maybe something like "An activity cannot start before a teams creation date
+
+![image](/uploads/550c4e3dfa74c6424d17e8ee319f996b/image.png)
+Potentially a similar issue but definitely not as big a worry. In my opinion these error messages dont provide the user a potential solution, phrasing it as "An activity cant end after it starts" tells the user they need to shift the start date if they want the given end time
+
+We should also consider adding an integration test or two now that its up and running
+-----------------------------
+-----------------------------
+edi28
+2023-05-08T11:48:26.849+12:00
+You might not have pulled when you checked but it says "Team does not exist yet. Team was created on 01/01/2022" is that ok?
+-----------------------------
+-----------------------------
+jfa93
+2023-05-05T15:31:03.505+12:00
+These are in the globalControllerAdvice I think
+-----------------------------
+-----------------------------
+jfa93
+2023-05-05T15:31:03.622+12:00
+Is this the right javadoc for this function?
+-----------------------------
+-----------------------------
+jfa93
+2023-05-05T15:31:03.750+12:00
+Javadoc
+-----------------------------
+-----------------------------
+jfa93
+2023-05-05T15:31:03.830+12:00
+This could / should probably show the actual user ID
+-----------------------------
+-----------------------------
+jfa93
+2023-05-05T15:31:03.917+12:00
+I am wondering whether or not this should have its own controller. Originally I thought this should be on the UserController but then I realised we dont have one, Maybe we could generalise this controller to be a UserController which handles user actions not associated with the profile controller? Alternaitvely we could rename the profile controller to the user controller since it handles the majority of /user/** endpoints
+-----------------------------
+-----------------------------
+jfa93
+2023-05-05T15:31:04.045+12:00
+We should definitely have a integration test for this flow
+-----------------------------
+-----------------------------
+pwh54
+2023-05-05T15:09:35.115+12:00
+Could benefit from being refactored as "user with email {string} has the city {string}". I.e, declare the type of variable (or string in this case) that would be passed before the variable itself for readability.
+-----------------------------
+-----------------------------
+mha585
+2023-05-05T14:18:51.904+12:00
+Could be a good idea to replace the multiple hidden=true or false statements with a boolean set to true or false, like is done in the ProfileTemplate - Patrick
+-----------------------------
+-----------------------------
+jfa93
+2023-05-04T20:59:23.939+12:00
+This should potentially be extracted to commonsteps.js so that we can reuse this in other places
+Alternatively, we could seed the data so that The default user 100% has this team (through data.sql)
+-----------------------------
+-----------------------------
+jfa93
+2023-05-04T20:59:24.059+12:00
+This should probably be grouped with the ActivityController, Good idea to keep Activity endpoints in the same place
+-----------------------------
+-----------------------------
+jfa93
+2023-05-04T20:59:24.130+12:00
+Documentation
+-----------------------------
+-----------------------------
+jfa93
+2023-05-04T20:59:24.201+12:00
+Documentation
+-----------------------------
+-----------------------------
+jfa93
+2023-05-04T20:59:24.272+12:00
+By having 'activityCreate' as a param on the view page we are lighting the create activity button up whenever a user is viewing an activity, Idk if this is something we want to happen?
+-----------------------------
+-----------------------------
+jfa93
+2023-05-04T20:59:24.348+12:00
+No assert statement in this test
+-----------------------------
+-----------------------------
+jfa93
+2023-05-02T16:26:20.830+12:00
+I checked data.sql and this is confirmed by default.
+If you were to change this to be unconfirmed when the database is initialised could you also change the email to match the idea "unconfirmed@email.com"
+-----------------------------
+-----------------------------
+eca66
+2023-05-02T16:29:20.737+12:00
+Ah yes you're right that was left over from the arbitrary even/odd check I forgot to change that test
+-----------------------------
+-----------------------------
+jfa93
+2023-05-01T16:13:05.328+12:00
+Do we want to keep these here?
+-----------------------------
+-----------------------------
+jfa93
+2023-05-01T16:13:05.465+12:00
+Non blocking but weird grammar
+-----------------------------
+-----------------------------
+jfa93
+2023-05-01T16:13:05.559+12:00
+Task to re-integrate these
+-----------------------------
+-----------------------------
+jfa93
+2023-05-01T14:25:09.096+12:00
+Empty When statement
+-----------------------------
+-----------------------------
+pwh54
+2023-05-02T12:39:32.823+12:00
+When statement removed
+-----------------------------
+-----------------------------
+jfa93
+2023-05-01T14:25:09.241+12:00
+Remove TODO
+-----------------------------
+-----------------------------
+pwh54
+2023-05-02T12:39:43.989+12:00
+Removed
+-----------------------------
+-----------------------------
+ebr81
+2023-05-03T00:40:22.440+12:00
+Should be a save icon here
+(Already stated by Jack but restating anyway)
+-----------------------------
+-----------------------------
+pwh54
+2023-05-03T11:44:18.634+12:00
+Done
+-----------------------------
+-----------------------------
+ebr81
+2023-05-03T01:20:29.940+12:00
+Empty function
+-----------------------------
+-----------------------------
+pwh54
+2023-05-03T11:44:24.809+12:00
+Removed
+-----------------------------
+-----------------------------
+ebr81
+2023-05-03T01:21:24.354+12:00
+remove commented out code?
+-----------------------------
+-----------------------------
+pwh54
+2023-05-03T11:44:30.640+12:00
+Removed
+-----------------------------
+-----------------------------
+jfa93
+2023-05-03T11:59:47.854+12:00
+Non-blocking but this is too much work for the controller, Ideally with our structure whenever we edit a user it should always be done within the UserService
+
+Maybe this could be done under updateCurrentUserPassword(String password)
+-----------------------------
+-----------------------------
+jfa93
+2023-05-01T13:10:13.337+12:00
+Remove
+-----------------------------
+-----------------------------
+jfa93
+2023-05-01T13:10:13.442+12:00
+Potentially migrate this to TabUserService,
+
+Add feature to remove the account attached to the token at the same time as the token using the @Transactional annotation
+-----------------------------
+-----------------------------
+mrw106
+2023-04-30T19:20:48.244+12:00
+Looks good overall but currently is lacking cypress and/or manual testing logs.
+-----------------------------
+-----------------------------
+eca66
+2023-04-30T19:41:13.013+12:00
+That's because there's no AC's completed yet to test. I plan to write cypress tests when I finish the next part of this story because there will actually be AC's to write them for. The first AC requires the join button.
+
+AC1 Given I am anywhere on the system, when I click on a dedicated UI element to see the teams I am a member of, then I can choose to join a new team.
+-----------------------------
+-----------------------------
+eca66
+2023-04-23T12:12:24.893+12:00
+The message for an invalid sport showing up at the top of the page kinda breaks the flow a little, could it show in a similar way to how the errors show on the forms?
+-----------------------------
+-----------------------------
+jfa93
+2023-04-23T13:16:51.586+12:00
+Fixed, The top error only happens on serverside error catches where the page would refresh anyways
+-----------------------------
+-----------------------------
+jfa93
+2023-04-22T15:36:54.753+12:00
+Can we put this in a SCSS file?
+-----------------------------
+-----------------------------
+jfa93
+2023-04-22T15:36:54.960+12:00
+step.scss
+-----------------------------
+-----------------------------
+jfa93
+2023-04-22T15:36:55.039+12:00
+If this is going to be something we use on a majority of forms we should try and generalize it to a js file I think it is non-blocking for now but food for thought
+-----------------------------
+-----------------------------
+eca66
+2023-04-22T15:40:46.509+12:00
+I was going to but theres a few things different between editing and registering and I had trouble keeping up with the current page when it was in a separate .js file
+-----------------------------
+-----------------------------
+mha585
+2023-04-22T14:01:01.146+12:00
+- Hide the login / register buttons if the user views the home page while logged in
+- Can the homepage browser tab named be changed as its so agressive in all caps :(
+-----------------------------
+-----------------------------
+edi28
+2023-04-22T14:24:52.970+12:00
+You shouldn't be able to see the home page if you are logged in
+-----------------------------
+-----------------------------
+edi28
+2023-04-22T14:25:32.762+12:00
+Also personally we've used uppercase everywhere else for the app name so i feel like it would be weird to change it
+-----------------------------
+-----------------------------
+jfa93
+2023-04-19T11:44:41.501+12:00
+![image](/uploads/cdd1a6a603a6a50ec3a1a59c1656bc4a/image.png)
+When you go to a profile that isnt your's you can see the edit text even though the button isnt there
+-----------------------------
+-----------------------------
+ebr81
+2023-04-19T17:12:04.059+12:00
+Thanks, hadn't noticed this before.
+I can't make any changes to this MR - the task on Scrumboard has no more available time.
+The fix is to remove the closing `/` at the end of the `<button>` line - it's a holdover from the `<input>` it replaced.
+-----------------------------
+-----------------------------
+jfa93
+2023-04-19T17:25:35.874+12:00
+If it is a one line fix there is nothing wrong with pushing it, especially if the bug is already found
+-----------------------------
+-----------------------------
+jfa93
+2023-04-19T11:17:53.772+12:00
+I dont necessarily think this is a code smell since the default image is an svg.
+I do think that its important that we dont write "This is a code smell" anywhere because it shows we aren't designing good solutions.
+-----------------------------
+-----------------------------
+jfa93
+2023-04-19T11:17:53.973+12:00
+Is there something thats meant to be here?
+-----------------------------
+-----------------------------
+jfa93
+2023-04-19T11:17:54.159+12:00
+Its bad practice to have two actions performed in a single test (set and get), dont worry about removing them because they are already there but especially since you already have awesome setting and getting tests these aren't needed.
+-----------------------------
+-----------------------------
+jfa93
+2023-04-19T11:17:54.282+12:00
+There should definitely be tests for invalid file types .pdf etc
+-----------------------------
+-----------------------------
+jfa93
+2023-04-19T11:17:54.517+12:00
+![image](/uploads/3135a9761e862de97beb706423401772/image.png)
+Did we want the image this big? I dont mind it but it does mean unnecessary scrolling when we should be able to see all the data on one page on a monitor
+-----------------------------
+-----------------------------
+edi28
+2023-04-19T13:48:51.981+12:00
+styling isn't a part of this task so i've just left it as this for now because we have a design task to fix the page anyway
+-----------------------------
+-----------------------------
+mha585
+2023-04-13T21:11:55.967+12:00
+This looks really good on the street adress field!
+Probably makes sense to add the new dropdown to the favourite sport input aswell.
+
+Also just a thought but is there any reason why we are not giving auto complete location options when filling out other fields like country?
+-----------------------------
+-----------------------------
+mha585
+2023-04-13T21:14:40.145+12:00
+new cypress tests look good they should hopefully be fine on the pipeline?
+-----------------------------
+-----------------------------
+edi28
+2023-04-17T11:57:39.499+12:00
+Sorry to be a pain you really don't have to change it if you don't want to but I don't love the circle around the x or that the x is the letter x rather than a cross. I think it would be better if when the x was hovered over the colour of the whole pill changed. Again it isn't a massive deal but i think that would look a bit nicer. Also you can click the plus even when there is nothing in typed in the field i'd recommend maybe having it disabled until they have typed otherwise it's a bit confusing. Also when it says no users on this page have this city add some padding to the left so it isn't up agains the border. When i type in a sport on the sport filter that doesn't exist the text is "No users on this page have a favourite sport" Although this was true because I had filtered it so the only user shown had no sport this message only shows up when i start typing initially there were multiple sports being shown this seems a little weird? Also padding on the left for the text as well. These are all super minor and i feel bad because i know you've put a ton of work into this so if you want a break from it i'm more than happy to make some of the changes myself
+-----------------------------
+-----------------------------
+mha585
+2023-04-17T12:01:50.575+12:00
+Dont feel bad! will work on it now
+-----------------------------
+-----------------------------
+jfa93
+2023-03-29T10:01:01.506+13:00
+Non-blocking
+
+With this test we cant be certain which character is actually invalid. Patrick did an awesome example of a parameterized test with the sports interests Cypress tests. and pass through one invalid at a time
+-----------------------------
+-----------------------------
+eca66
+2023-03-27T13:14:16.459+13:00
+remove log
+-----------------------------
+-----------------------------
+ebr81
+2023-03-27T13:14:29.219+13:00
+How do you test that the location is saved to the user?
+Debugging/logging in IntelliJ?
+-----------------------------
+-----------------------------
+edi28
+2023-03-27T13:37:38.896+13:00
+I just added a manual test and otherwise it's tested by the register tests i updated
+-----------------------------
+-----------------------------
+jfa93
+2023-03-25T16:56:42.777+13:00
+Not too sure how I feel about the id not being a path variable.
+
+If we take Facebook as an example the url for a group is https://www.facebook.com/groups/{id}
+-----------------------------
+-----------------------------
+cda90
+2023-03-25T17:02:12.314+13:00
+That sounds fine, I'll switch it
+-----------------------------
+-----------------------------
+jfa93
+2023-03-25T16:56:42.911+13:00
+Is there meant to be a regex here?
+-----------------------------
+-----------------------------
+cda90
+2023-03-25T17:01:55.218+13:00
+No that comment was a copy/paste error. removing it
+-----------------------------
+-----------------------------
+jfa93
+2023-03-24T10:35:44.981+13:00
+Might want to remove the ? if there is no error
+-----------------------------
+-----------------------------
+jfa93
+2023-03-24T10:35:45.168+13:00
+Probably an unnecessary comment, do we want ths to be scalable anyways?
+-----------------------------
+-----------------------------
+jfa93
+2023-03-24T10:35:45.317+13:00
+.thenThrow() likely isnt suitable here. This is used in a context like
+
+when(tabUserRepsitory.getUserById(5)).thenThrow(new IllegalArgment), we use it to say a dependency isnt happy.
+
+what you could do here is use .andExpect(view().name("redirect:/profile?"Error message")) which will check the error is passed to the front end
+-----------------------------
+-----------------------------
+jfa93
+2023-03-24T10:35:45.504+13:00
+same as above
+-----------------------------
+-----------------------------
+jfa93
+2023-03-24T10:35:45.586+13:00
+If we are being exact 10 megabytes is 8 * 1000 * 1000
+-----------------------------
+-----------------------------
+ebr81
+2023-03-24T13:04:26.173+13:00
+huh? A megabyte is one million bytes.
+-----------------------------
+-----------------------------
+ebr81
+2023-03-24T13:06:25.074+13:00
+I am interpretating MB as 10^6 bytes rather than 2^20 bytes - the latter is a Mebibyte with unit MiB
+-----------------------------
+-----------------------------
+jfa93
+2023-03-24T13:10:32.952+13:00
+Correct but a byte is 8 bits, so its 8 * 1000 * 1000 bits
+-----------------------------
+-----------------------------
+jfa93
+2023-03-24T10:35:45.723+13:00
+This is okay if we put the TODO tag here
+-----------------------------
+-----------------------------
+jfa93
+2023-03-24T10:35:45.799+13:00
+Delete
+-----------------------------
+-----------------------------
+jfa93
+2023-03-24T10:35:45.897+13:00
+Nice
+-----------------------------
+-----------------------------
+ebr81
+2023-03-24T11:26:44.343+13:00
+Ported over from @mrw106 :)
+-----------------------------
+-----------------------------
+jfa93
+2023-03-23T10:05:12.875+13:00
+Should this be done?
+-----------------------------
+-----------------------------
+mha585
+2023-03-21T16:04:41.635+13:00
+Are we going with team/create or teams/create to match with users/profile?
+-----------------------------
+-----------------------------
+mha585
+2023-03-21T16:10:07.743+13:00
+Should all the optionals in this file that are optional-list exist?
+-----------------------------
+-----------------------------
+mha585
+2023-03-21T16:10:41.367+13:00
+should be removed?
+-----------------------------
+-----------------------------
+mha585
+2023-03-21T16:14:11.320+13:00
+change this alert
+-----------------------------
+-----------------------------
+mha585
+2023-03-21T16:15:50.934+13:00
+For the team: we should consider changing all these to th:insert="~{fragments/navbarFragment.html :: navbar}" as this current way we are adding fragments is depricated
+-----------------------------
+-----------------------------
+jfa93
+2023-03-21T16:59:36.764+13:00
+Agreed we should shift away but dont make it a priority to change
+-----------------------------
+-----------------------------
+mha585
+2023-03-21T16:16:59.152+13:00
+Do we still need this given we can now get the currently logged in user?
+-----------------------------
+-----------------------------
+mha585
+2023-03-21T16:22:40.441+13:00
+There is an issue when adding a team that the user has already favourited it adds it again, but it wont add a new team to the DB regardless of capitalisation which is nice!
+-----------------------------
+-----------------------------
+mha585
+2023-03-21T16:23:35.781+13:00
+fix this test working with the new team stuff
+-----------------------------
+-----------------------------
+mha585
+2023-03-21T16:24:11.471+13:00
+we need to add team/create to the YAML
+-----------------------------
+-----------------------------
+jfa93
+2023-03-20T19:34:21.673+13:00
+Do we have tests for capitalization?
+-----------------------------
+-----------------------------
+mha585
+2023-03-20T19:36:50.827+13:00
+hmm no I don't think it's specifically tested as when I glanced at the results they were right, but your right I will add those tests now
+-----------------------------
+-----------------------------
+jfa93
+2023-03-19T20:22:46.050+13:00
+As a suggestion in the dB there is a default cypress user, I'd recommend switching to this to match the old tests on the team f project
+-----------------------------
+-----------------------------
+jfa93
+2023-03-19T20:22:46.246+13:00
+This might have been fixed with my bugfix from earlier
+-----------------------------
+-----------------------------
+jfa93
+2023-03-18T17:03:58.825+13:00
+Bloody mint solution
+-----------------------------
+-----------------------------
+jfa93
+2023-03-16T12:29:42.184+13:00
+Might want to change this from adding to attempted to add
+-----------------------------
+-----------------------------
+jfa93
+2023-03-16T12:47:22.173+13:00
+Another small thing is we should figure out and add to the documnetation how to effectively display these errors to the user
+-----------------------------
+-----------------------------
+jfa93
+2023-03-15T18:10:50.228+13:00
+We might want to consider renaming this controller, my votes on UserSearchController
+-----------------------------
+-----------------------------
+jfa93
+2023-03-15T18:10:50.370+13:00
+Potentially rename to UserTable (More generic and better suited for if we were gonna list the users in a team on another endpoint)
+-----------------------------
+-----------------------------
+jfa93
+2023-03-15T18:10:50.474+13:00
+Match controller with UserSearchTemplate
+-----------------------------
+-----------------------------
+jfa93
+2023-03-15T18:10:50.584+13:00
+Needs testing:
+- What happens if an empty string is passed through
+- Verify that it calls the repository
+-----------------------------
+-----------------------------
+jfa93
+2023-03-15T18:10:50.669+13:00
+Tests:
+Returns empty page when theres no users
+Calls Repo
+-----------------------------
+-----------------------------
+jfa93
+2023-03-15T18:10:50.743+13:00
+Will this button be needed anymore? (Talked with Matt about having a picture in the corner to go to your profile). Given thats there this button wont be needed anymore nor will the current user fetch in the controller
+-----------------------------
+-----------------------------
+ebr81
+2023-03-16T17:31:35.319+13:00
+Keeping button in until navbar is made
+-----------------------------
+-----------------------------
+jfa93
+2023-03-15T18:10:50.815+13:00
+One of the later comments suggests this isnt needed anymore, but we could definitely abstract this functionality to a function in TabUserService with the signature Optional<TabUser> getCurrentUser()
+-----------------------------
+-----------------------------
+jfa93
+2023-03-15T18:10:50.886+13:00
+Need to do a context test on this controller (Refer to one of the other controllers)
+-----------------------------
+-----------------------------
+ebr81
+2023-03-16T20:59:43.213+13:00
+Have not done all tests
+-----------------------------
+-----------------------------
+jfa93
+2023-03-15T18:10:50.971+13:00
+Should probably do a test for what is returned if the page has no users (We should probably be redirecting)
+
+A test that the users name is within the html aswell?
+-----------------------------
+-----------------------------
+ebr81
+2023-03-16T19:35:29.521+13:00
+Should the HTML tests be done in Java or Cypress?
+-----------------------------
+-----------------------------
+ebr81
+2023-03-16T19:36:37.305+13:00
+nvm it'll be in Java using mockMvc
+-----------------------------

@@ -4,3 +4,4 @@ class Note:
         self.id = dict_obj['id']
         self.body = dict_obj['body']
         self.author = dict_obj['author']['username']
+        self.resolvable = dict_obj['resolvable']

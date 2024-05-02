@@ -6,3 +6,4 @@ class Note:
         self.author = dict_obj['author']['username']
         self.resolvable = dict_obj['resolvable']
         self.created_at = dict_obj['created_at']
+        self.updated_at = dict_obj['updated_at']

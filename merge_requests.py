@@ -2,6 +2,8 @@ from discussion import Discussion
 from statistics import mean
 from check_item import CheckItem 
 import csv
+import matplotlib.pyplot as plt
+from datetime import datetime
 
 BOT_NAME = 'group_18664_bot_ed7a929f2e2e383a315369833ef98d6b'
 
@@ -98,7 +100,7 @@ def get_review_coverage(merge_requests):
     fields = [key for key in items_checked[0]]
     write_results('review_coverage', items_checked, fields)
     average_checked = total_percentage/merge_request_forms
-    print('Average percentage checked: {}'.format(average_checked))
+    print('Average percentage checked: {}, coverage recorded'.format(average_checked))
 
 def record_notes(merge_requests):
     f = open('review_notes.txt', 'w')
@@ -108,8 +110,30 @@ def record_notes(merge_requests):
             lines = ['-----------------------------\n{}\n'.format(note.author), '{}\n'.format(note.created_at), '{}\n'.format(note.body), '-----------------------------\n']
             f.writelines(lines)
     f.close()
+    print('Notes recorded')
+
+def plot_discussion_density(merge_requests):
+    date_notes = {}
+    for merge_request in merge_requests:
+        notes = merge_request.get_all_notes()
+        for note in notes:
+            created_at = datetime.strptime(note.created_at[:10], '%Y-%m-%d')
+            if created_at not in date_notes:
+                date_notes[created_at] = 1
+            else:
+                date_notes[created_at] += 1
+    dates_sorted = dict(sorted(date_notes.items()))
+    print(dates_sorted)
+    dates = dates_sorted.keys()
+    num_notes = dates_sorted.values()
+    plt.plot(dates, num_notes)
+    plt.show()
 
 def get_data(project):
+    """
+    - TODO density of review comments over time
+    - TODO distribution of comments per team member
+    """
     merge_requests = get_merge_requests(project)
     review_forms = get_review_forms(merge_requests)
 
@@ -119,5 +143,5 @@ def get_data(project):
     #     print('==========')
 
     # get_review_coverage(merge_requests)
-
-    record_notes(merge_requests)
+    # record_notes(merge_requests)
+    plot_discussion_density(merge_requests)

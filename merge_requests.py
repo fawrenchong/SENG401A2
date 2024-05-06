@@ -142,7 +142,8 @@ def plot_discussion_distribution(merge_requests):
                 author_notes[author] = 0
             else:
                 author_notes[author] += 1
-    authors = author_notes.keys()
+    print(author_notes.keys())
+    authors = ['author{}'.format(i + 1) for i in range(len(author_notes.keys()))]
     num_notes = author_notes.values()
     plt.bar(authors, num_notes)
     plt.xlabel('Authors')

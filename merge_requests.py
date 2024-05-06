@@ -1,3 +1,4 @@
+import json
 from discussion import Discussion
 from statistics import mean
 from check_item import CheckItem 
@@ -84,19 +85,32 @@ def get_review_coverage(merge_requests):
     total_percentage = 0
 
     items_checked = []
+    occurrences = {}
     for merge_request in merge_requests:
         checked = merge_request.number_checked()
-        if len(merge_request.checklist) > 0:
+        total_checks = len(merge_request.checklist)
+        if total_checks > 0:
             percentage = checked / len(merge_request.checklist) * 100
             merge_request_forms += 1
             total_percentage += percentage
         else:
             percentage = None
-        print('{} - Items checked: {}/{} - {}%'.format(i, checked, len(merge_request.checklist), percentage))
-        row = {'Items Checked': checked, 'Total Checks': len(merge_request.checklist), 'Percentage Coverage': percentage}
+
+        if (checked, total_checks) not in occurrences:
+            occurrences[(checked, total_checks)] = 1
+        else:
+            occurrences[(checked, total_checks)] += 1
+
+        print('{} - Items checked: {}/{} - {}%'.format(i, checked, total_checks, percentage))
+        row = {'Items Checked': checked, 'Total Checks': total_checks, 'Percentage Coverage': percentage}
         items_checked.append(row)
         i += 1
     
+    with open('coverage_occurrences.txt', 'w') as occ_file:
+        occ_file.write('#checked/#items: #occurrences\n')
+        for key, value in occurrences.items():
+            occ_file.write('{}: {}\n'.format(key, value))
+
     fields = [key for key in items_checked[0]]
     write_results('review_coverage', items_checked, fields)
     average_checked = total_percentage/merge_request_forms

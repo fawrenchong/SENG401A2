@@ -170,12 +170,12 @@ We would want to be careful sending back a raw error message to the user as it m
 -----------------------------
 eca66
 2023-09-08T06:58:03.232+12:00
-This shouldnít be a raw message, it would always be the error thrown by saving the knockout prediction which is something like ìfailed to save predictionî or something
+This shouldn‚Äôt be a raw message, it would always be the error thrown by saving the knockout prediction which is something like ‚Äúfailed to save prediction‚Äù or something
 -----------------------------
 -----------------------------
 eca66
 2023-09-08T07:22:34.611+12:00
-Also I just remembered the error notifications arenít showing to the user for some reason so let me fix that before you merge
+Also I just remembered the error notifications aren‚Äôt showing to the user for some reason so let me fix that before you merge
 -----------------------------
 -----------------------------
 cda90
@@ -1819,7 +1819,7 @@ Did you bootrun? there is new sass files for the calendar
 -----------------------------
 eca66
 2023-05-12T11:14:27.160+12:00
-Ah thatís probably the issue sorry
+Ah that‚Äôs probably the issue sorry
 -----------------------------
 -----------------------------
 eca66

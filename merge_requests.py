@@ -123,9 +123,11 @@ def plot_discussion_density(merge_requests):
             else:
                 date_notes[created_at] += 1
     dates_sorted = dict(sorted(date_notes.items()))
-    print(dates_sorted)
     dates = dates_sorted.keys()
     num_notes = dates_sorted.values()
+    plt.title('Density of comments over time')
+    plt.xlabel('Dates')
+    plt.ylabel('Number of (resolvable) notes')
     plt.plot(dates, num_notes)
     plt.show()
 

@@ -96,10 +96,10 @@ def get_review_coverage(merge_requests):
         else:
             percentage = None
 
-        if (checked, total_checks) not in occurrences:
-            occurrences[(checked, total_checks)] = 1
+        if percentage not in occurrences:
+            occurrences[percentage] = 1
         else:
-            occurrences[(checked, total_checks)] += 1
+            occurrences[percentage] += 1
 
         print('{} - Items checked: {}/{} - {}%'.format(i, checked, total_checks, percentage))
         row = {'Items Checked': checked, 'Total Checks': total_checks, 'Percentage Coverage': percentage}

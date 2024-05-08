@@ -1,7 +1,7 @@
 import os
 import dotenv
 import gitlab
-from merge_requests import get_data
+from code_reviews import get_data
 
 dotenv.load_dotenv(override=True)
 TOKEN = os.environ['TOKEN']

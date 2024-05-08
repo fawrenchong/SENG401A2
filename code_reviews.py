@@ -1,55 +1,8 @@
-import json
-from discussion import Discussion
 from statistics import mean
-from check_item import CheckItem 
 import csv
 import matplotlib.pyplot as plt
 from datetime import datetime
-
-BOT_NAME = 'group_18664_bot_ed7a929f2e2e383a315369833ef98d6b'
-
-class MergeRequest:
-    def __init__(self, gitlab_obj):
-        self.gitlab_obj = gitlab_obj
-        self.description = gitlab_obj.description
-        self.author = gitlab_obj.author['username']
-        self.discussions = [Discussion(dis) for dis in gitlab_obj.discussions.list(get_all=True)]
-        self.checklist = self.get_checklist_items()
-
-    def print_discussions(self):
-        for discussion in self.discussions:
-            discussion.gitlab_obj.pprint()
-
-    def count_notes(self):
-        return sum(len(discussion.notes) for discussion in self.discussions)
-    
-    def get_all_notes(self):
-        """Returns a list of all the notes in every discussion
-        gets only the notes that are resolvable"""
-        notes = []
-        for discussion in self.discussions:
-            for note in discussion.notes:
-                if note.author != BOT_NAME and note.resolvable:
-                    notes.append(note)
-        return notes
-
-    def get_checklist_items(self):
-        review_form_string = '## Review Form'
-        if review_form_string not in self.description:
-            return []
-        else:
-            checklist_string = self.description.split(review_form_string)[-1].strip()
-            checklist_items = checklist_string.split('\n{} '.format(checklist_string[0]))
-            checklist_items[0] = checklist_items[0][2:]
-            return [CheckItem(checklist_item) for checklist_item in checklist_items]
-
-    def number_checked(self):
-        """Gets how many checklist items are marked"""
-        checked = 0
-        for item in self.checklist:
-            if item.is_marked:
-                checked += 1
-        return checked
+from merge_request import MergeRequest
 
 def get_average_discussions(merge_requests):
     """This does not count the comment automatically made by SonarQube"""
@@ -146,7 +99,6 @@ def plot_discussion_density(merge_requests):
     plt.show()
 
 def plot_discussion_distribution(merge_requests):
-    """TODO anonymise author names"""
     author_notes = {}
     for merge_request in merge_requests:
         notes = merge_request.get_all_notes()
@@ -165,10 +117,27 @@ def plot_discussion_distribution(merge_requests):
     plt.title('Number of Notes Per User')
     plt.show()
 
+def plot_note_length(merge_requests):
+    note_lengths = []
+    notes_last_updated = []
+    for merge_request in merge_requests:
+        notes = merge_request.get_all_notes()
+        for note in notes:
+            note_length = len(note.body)
+            last_updated = datetime.strptime(note.updated_at[:10], '%Y-%m-%d')
+            note_lengths.append(note_length)
+            notes_last_updated.append(last_updated)
+    plt.scatter(notes_last_updated, note_lengths)
+    plt.title('Length of Comments over Time')
+    plt.xlabel('Last Updated')
+    plt.ylabel('Length of note')
+    plt.show()
+
 def get_data(project):
     """
-    - TODO density of review comments over time
-    - TODO distribution of comments per team member
+    - TODO length of notes over time
+    - TODO length of notes per developer
+    - TODO how they use sonarqube report in the review
     """
     merge_requests = get_merge_requests(project)
     review_forms = get_review_forms(merge_requests)
@@ -182,3 +151,4 @@ def get_data(project):
     record_notes(merge_requests)
     plot_discussion_density(merge_requests)
     plot_discussion_distribution(merge_requests)
+    plot_note_length(merge_requests)

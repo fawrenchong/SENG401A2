@@ -33,6 +33,7 @@ def write_results(name, results, fields):
         writer.writerows(results)
 
 def get_review_coverage(merge_requests):
+    """Gets the percentage of review checklist items ticked in total"""
     i = 1
     merge_request_forms = 0
     total_percentage = 0
@@ -80,6 +81,7 @@ def record_notes(merge_requests):
     print('Notes recorded')
 
 def plot_discussion_density(merge_requests):
+    """Plots the number of resolvable comments over the time of the project"""
     date_notes = {}
     for merge_request in merge_requests:
         notes = merge_request.get_all_notes()
@@ -99,6 +101,8 @@ def plot_discussion_density(merge_requests):
     plt.show()
 
 def plot_discussion_distribution(merge_requests):
+    """Plots the discussion distribution between the user. 
+    It shows the total number of resolvable comments from each user"""
     author_notes = {}
     for merge_request in merge_requests:
         notes = merge_request.get_all_notes()
@@ -108,7 +112,7 @@ def plot_discussion_distribution(merge_requests):
                 author_notes[author] = 0
             else:
                 author_notes[author] += 1
-    print(author_notes.keys())
+    print('Author discussion names: {}'.format(author_notes.keys()))
     authors = ['author{}'.format(i + 1) for i in range(len(author_notes.keys()))]
     num_notes = author_notes.values()
     plt.bar(authors, num_notes)
@@ -118,6 +122,7 @@ def plot_discussion_distribution(merge_requests):
     plt.show()
 
 def plot_note_length(merge_requests):
+    """Plots the length of every note and the date that they were last updated"""
     note_lengths = []
     notes_last_updated = []
     for merge_request in merge_requests:
@@ -131,6 +136,26 @@ def plot_note_length(merge_requests):
     plt.title('Length of Comments over Time')
     plt.xlabel('Last Updated')
     plt.ylabel('Length of note')
+    plt.show()
+
+def plot_average_lengths(merge_requests):
+    """Plots how long each developer makes their comments"""
+    author_note_lengths = {}
+    for merge_request in merge_requests:
+        notes = merge_request.get_all_notes()
+        for note in notes:
+            author = note.author
+            if author not in author_note_lengths:
+                author_note_lengths[author] = []
+            else:
+                author_note_lengths[author].append(len(note.body))
+    print('Author note lengths keys: {}'.format(author_note_lengths.keys()))
+    print(author_note_lengths)
+    authors = ['Author {}'.format(i + 1) for i in range(len(author_note_lengths.keys()))]
+    average_lengths = [mean(note_lengths) for note_lengths in author_note_lengths.values()]
+    plt.bar(authors, average_lengths)
+    plt.xlabel('Authors')
+    plt.ylabel('Average note lengths')
     plt.show()
 
 def get_data(project):
@@ -152,3 +177,4 @@ def get_data(project):
     plot_discussion_density(merge_requests)
     plot_discussion_distribution(merge_requests)
     plot_note_length(merge_requests)
+    plot_average_lengths(merge_requests)

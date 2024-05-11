@@ -94,9 +94,9 @@ def plot_discussion_density(merge_requests):
     dates_sorted = dict(sorted(date_notes.items()))
     dates = dates_sorted.keys()
     num_notes = dates_sorted.values()
-    plt.title('Density of comments over time')
+    plt.title('Number of Notes Over Time')
     plt.xlabel('Dates')
-    plt.ylabel('Number of (resolvable) notes')
+    plt.ylabel('Number of (resolvable) Notes')
     plt.plot(dates, num_notes)
     plt.show()
 
@@ -113,12 +113,12 @@ def plot_discussion_distribution(merge_requests):
             else:
                 author_notes[author] += 1
     print('Author discussion names: {}'.format(author_notes.keys()))
-    authors = ['author{}'.format(i + 1) for i in range(len(author_notes.keys()))]
+    authors = ['Author{}'.format(i + 1) for i in range(len(author_notes.keys()))]
     num_notes = author_notes.values()
     plt.bar(authors, num_notes)
     plt.xlabel('Authors')
     plt.ylabel('Number of Notes')
-    plt.title('Number of Notes Per User')
+    plt.title('Number of Notes For Each Author')
     plt.show()
 
 def plot_note_length(merge_requests):
@@ -133,9 +133,37 @@ def plot_note_length(merge_requests):
             note_lengths.append(note_length)
             notes_last_updated.append(last_updated)
     plt.scatter(notes_last_updated, note_lengths)
-    plt.title('Length of Comments over Time')
+    plt.title('Length of Notes Over Time')
     plt.xlabel('Last Updated')
-    plt.ylabel('Length of note')
+    plt.ylabel('Length of Note')
+    plt.show()
+
+def plot_note_length_trends(merge_requests):
+    """Plots the average note length over time per developer"""
+    author_notes = {}
+    for merge_request in merge_requests:
+        notes = merge_request.get_all_notes()
+        for note in notes:
+            author = note.author
+            if author not in author_notes:
+                author_notes[author] = []
+            else:
+                author_notes[author].append(note)
+
+    print('Note length trend authors: {}'.format(author_notes.keys()))
+    i = 1
+    for author in author_notes:
+        anon_name = 'Author{}'.format(i)
+        notes = author_notes[author]
+        lengths = [len(note.body) for note in notes]
+        dates = [datetime.strptime(note.updated_at[:10],  '%Y-%m-%d') for note in notes]
+
+        plt.scatter(dates, lengths, label=anon_name)
+        i += 1
+    plt.xlabel('Date')
+    plt.ylabel('Note Length')
+    plt.title('Length of Notes Over Time')
+    plt.legend()
     plt.show()
 
 def plot_average_lengths(merge_requests):
@@ -150,12 +178,13 @@ def plot_average_lengths(merge_requests):
             else:
                 author_note_lengths[author].append(len(note.body))
     print('Author note lengths keys: {}'.format(author_note_lengths.keys()))
-    print(author_note_lengths)
-    authors = ['Author {}'.format(i + 1) for i in range(len(author_note_lengths.keys()))]
+
+    authors = ['Author{}'.format(i + 1) for i in range(len(author_note_lengths.keys()))]
     average_lengths = [mean(note_lengths) for note_lengths in author_note_lengths.values()]
     plt.bar(authors, average_lengths)
+    plt.title('Average Note Length For Each Author')
     plt.xlabel('Authors')
-    plt.ylabel('Average note lengths')
+    plt.ylabel('Average Note Lengths')
     plt.show()
 
 def get_data(project):
@@ -178,3 +207,4 @@ def get_data(project):
     plot_discussion_distribution(merge_requests)
     plot_note_length(merge_requests)
     plot_average_lengths(merge_requests)
+    plot_note_length_trends(merge_requests)

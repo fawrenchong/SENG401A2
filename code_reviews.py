@@ -26,6 +26,22 @@ def get_review_forms(merge_requests):
 
     return review_forms
 
+def record_participation_per_merge(merge_requests):
+    number_of_notes = {}
+    for merge_request in merge_requests:
+        notes = merge_request.get_all_notes()
+        if len(notes) not in number_of_notes:
+            number_of_notes[len(notes)] = 1
+        else:
+            number_of_notes[len(notes)] += 1
+    
+    with open('notes_per_merge_request.txt', 'w') as f:
+        for key, value in sorted(number_of_notes.items()):
+            f.write('{}: {}\n'.format(key, value))
+    
+    print('Number of resolvable notes per merge request recorded')
+
+
 def write_results(name, results, fields):
     with open('{}.csv'.format(name), 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fields)
@@ -201,6 +217,7 @@ def get_data(project):
             print(item)
         print('==========')
 
+    record_participation_per_merge(merge_requests)
     get_review_coverage(merge_requests)
     record_notes(merge_requests)
     plot_discussion_density(merge_requests)

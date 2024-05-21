@@ -6,3 +6,4 @@ TOKEN=token
 Packages needed:
 - python-dotenv
 - python-gitlab
+- matplotlib
